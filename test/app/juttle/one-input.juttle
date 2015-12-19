@@ -1,0 +1,4 @@
+input a: text -label 'a';
+emit -from :0: -limit 1
+| put v = a
+| @logger -display.style 'json' -title 'myLogger'

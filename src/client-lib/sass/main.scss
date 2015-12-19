@@ -1,0 +1,21 @@
+
+.juttle-view {
+    // include juttle-viz css
+    @import "../../../node_modules/juttle-viz/styles/charts";
+    @import "flexbox";
+
+    &.sink-views {
+        @include flex-grow(1);
+    }
+
+    .flex-row {
+        @include flexbox;
+        @include flex-direction(row);
+        margin-bottom: 10px;
+    }
+
+    .flex-col {
+        @include flex-grow(1);
+        margin: 5px;
+    }
+}
