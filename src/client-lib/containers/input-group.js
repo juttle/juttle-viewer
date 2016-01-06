@@ -8,7 +8,7 @@ class InputGroup extends Component {
         if (e.keyCode === 13 && e.shiftKey) {
             this.props.onRun();
         }
-    }
+    };
 
     render() {
         const { inputs } = this.props;
