@@ -48,7 +48,7 @@ const jobMiddleware = store => {
             }
 
             socket = new SocketManager({
-                url: 'ws://localhost:8080/api/v0/jobs/' + action.job_id,
+                url: `ws://${window.location.host}/api/v0/jobs/${action.job_id}`,
                 onOpen: onOpen.bind(null, action.job_id),
                 onMessage: onMessage.bind(null, action.job_id)
             });

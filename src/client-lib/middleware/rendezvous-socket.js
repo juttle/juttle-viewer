@@ -11,7 +11,7 @@ const rendezvousMiddleware = store => {
     }
 
     let socket = new SocketManager({
-        url: 'ws://localhost:8080/rendezvous/default',
+        url: `ws://${window.location.host}/rendezvous/default`,
         onMessage
     });
 
@@ -19,4 +19,3 @@ const rendezvousMiddleware = store => {
 }
 
 export default rendezvousMiddleware
-
