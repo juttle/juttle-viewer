@@ -1,9 +1,6 @@
-// XXX/mstemm todo
-//  - Add code coverage
-//  - Add linting
-//  - Add style guide checking
-
 var gulp = require('gulp');
+var isparta = require('isparta');
+var istanbul = require('gulp-istanbul');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
 var jscs = require('gulp-jscs');
@@ -21,8 +18,8 @@ gulp.task('jscs-test', function() {
 
 gulp.task('jscs-lib', function() {
     return gulp.src([
-        'bin/demo',
-        'bin/client',
+        'bin/outrigger-client',
+        'bin/outriggerd',
         'lib/*.js'
     ])
     .pipe(jscs({
@@ -43,8 +40,8 @@ gulp.task('jshint-test', function() {
 
 gulp.task('jshint-lib', function() {
     return gulp.src([
-        'bin/demo',
-        'bin/client',
+        'bin/outrigger-client',
+        'bin/outriggerd',
         'lib/**/*.js',
     ])
     .pipe(jshint('./lib/.jshintrc'))
@@ -53,6 +50,19 @@ gulp.task('jshint-lib', function() {
 });
 
 gulp.task('lint', ['jscs-lib', 'jscs-test', 'jshint-lib', 'jshint-test']);
+
+gulp.task('instrument', function () {
+    return gulp.src([
+        'lib/**/*.js',
+        'src/**/*.js'
+    ])
+    .pipe(istanbul({
+        includeUntested: true,
+        // ES6 Instrumentation
+        instrumenter: isparta.Instrumenter
+    }))
+    .pipe(istanbul.hookRequire());
+});
 
 function gulp_test() {
     return gulp.src('test/**/*.spec.js')
@@ -68,6 +78,21 @@ function gulp_test() {
 
 gulp.task('test', function() {
     return gulp_test();
+});
+
+gulp.task('test-coverage', ['instrument'], function() {
+    return gulp_test()
+        .pipe(istanbul.writeReports())
+        .pipe(istanbul.enforceThresholds({
+            thresholds: {
+                global: {
+                    statements: 72,
+                    branches: 68,
+                    functions: 61,
+                    lines: 55
+                }
+            }
+        }));
 });
 
 gulp.task('default', ['test', 'lint']);
