@@ -1,31 +1,34 @@
 import url from "fast-url-parser";
 
-import Juttle from "../../client-lib";
+import Juttle from "juttle-client-library";
 import { getBundle } from "../../client-lib/utils/api";
 
-import '../sass/main.scss'
+import 'juttle-client-library/dist/juttle-client-library.css';
+import '../sass/main.scss';
+
+// construct client plus views and inputs
+let client = new Juttle("localhost:8080");
+let view = new client.View(document.getElementById("juttle-view-layout"));
+let inputs = new client.Input(document.getElementById("juttle-input-groups"));
 
 let currentBundle;
-
-let currentJuttle = new Juttle({
-    serverUrl: 'http://localhost:2000',
-    viewsEl: document.getElementById('juttle-view-layout'),
-    inputsEl: document.getElementById('juttle-input-groups')
-});
-
 let parsed = url.parse(window.location.href, true);
 
 getBundle(parsed.query.path)
 .then((res) => {
-    currentBundle = res.bundle
-    return currentJuttle.prepare(currentBundle);
+    currentBundle = res.bundle;
+    return client.describe(currentBundle);
 })
-.then(() => {
-    if (currentJuttle.getInputs().length === 0) {
-        return currentJuttle.run(currentBundle);
+.then((desc) => {
+    // if we have no inputs go ahead and run
+    if (desc.inputs.length === 0) {
+        view.run(currentBundle);
+    } else {
+        inputs.render(currentBundle);
     }
-});
+})
 
-document.getElementsByClassName('btn-run')[0].addEventListener('click', e => {
-    currentJuttle.run(currentBundle);
+// run btn click
+document.getElementById("btn-run").addEventListener("click", () => {
+    view.run(currentBundle, inputs.getValues());
 });

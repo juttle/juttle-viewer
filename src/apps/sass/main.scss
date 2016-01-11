@@ -1,6 +1,7 @@
-@import "bootstrap-variables";
-@import "bootstrap";
-@import "../../client-lib/sass/flexbox";
+@import "./bootstrap-variables";
+@import "./bootstrap";
+@import "./flexbox";
+@import "./juttle-client-library-overrides";
 
 html, body {
     height: 100%;

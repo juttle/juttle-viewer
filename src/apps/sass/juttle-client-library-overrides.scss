@@ -1,0 +1,9 @@
+// use bootstrap vars for overrides
+
+.juttle-client-library {
+    .form-control {
+        background-color: $input-bg;
+        color: $input-color;
+        border-color: $input-border;
+    }
+}
