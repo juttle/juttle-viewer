@@ -1,7 +1,7 @@
 import url from 'fast-url-parser';
 
 import Juttle from 'juttle-client-library';
-import { getBundle } from '../../client-lib/utils/api';
+import * as api from '../../client-lib/utils/api';
 import RendezvousSocket from '../../client-lib/utils/rendezvous-socket';
 
 import 'juttle-client-library/dist/juttle-client-library.css';
@@ -30,8 +30,8 @@ let initBundle = (bundle) => {
 };
 
 if (parsed.query.path) {
-    client.describe(parsed.query.path)
-    .then(bundle => initBundle(bundle));
+    api.getBundle(parsed.query.path)
+    .then(res => initBundle(res.bundle));
 } else if (parsed.query.rendezvous) {
     let rendezvousUrl = `ws://${outriggerHost}/rendezvous/${parsed.query.rendezvous}`
     let rendezvous = new RendezvousSocket(rendezvousUrl);
