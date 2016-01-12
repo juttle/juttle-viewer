@@ -7,7 +7,8 @@ import 'juttle-client-library/dist/juttle-client-library.css';
 import '../sass/main.scss';
 
 // construct client plus views and inputs
-let client = new Juttle("localhost:8080");
+let outriggerHost = window.location.host;
+let client = new Juttle(outriggerHost);
 let view = new client.View(document.getElementById("juttle-view-layout"));
 let inputs = new client.Input(document.getElementById("juttle-input-groups"));
 
