@@ -68,7 +68,7 @@ function gulp_test() {
     return gulp.src('test/**/*.spec.js')
         .pipe(mocha({
             log: true,
-            timeout: 5000,
+            timeout: 30000,
             reporter: 'spec',
             ui: 'bdd',
             ignoreLeaks: true,
