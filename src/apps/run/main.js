@@ -17,6 +17,8 @@ let outriggerHost = window.location.host;
 let client = new Juttle(outriggerHost);
 let view = new client.View(document.getElementById("juttle-view-layout"));
 let inputs = new client.Input(document.getElementById("juttle-input-groups"));
+let errors = new client.Errors(document.getElementById("error-view"));
+let renderError = errors.render.bind(errors);
 let juttleSourceEl = document.getElementById("juttle-source");
 
 let currentBundle;
@@ -30,11 +32,21 @@ let initBundle = (bundle) => {
 
         // if we have no inputs go ahead and run
         if (desc.inputs.length === 0) {
-            view.run(bundle);
+            return view.run(bundle)
+                .then(function(jobEvents) {
+                    jobEvents.on('error', function(err) {
+                        errors.render(err);
+                    });
+
+                    jobEvents.on('warning', function(warning) {
+                        errors.render(warning);
+                    });
+                });
         } else {
-            inputs.render(bundle);
+            return inputs.render(bundle);
         }
-    });
+    })
+    .catch(renderError);
 };
 
 if (parsed.query.path) {
@@ -49,5 +61,6 @@ if (parsed.query.path) {
 
 // run btn click
 document.getElementById("btn-run").addEventListener("click", () => {
-    view.run(currentBundle, inputs.getValues());
+    view.run(currentBundle, inputs.getValues())
+        .catch(renderError);
 });

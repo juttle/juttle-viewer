@@ -54,6 +54,7 @@ gulp.task('lint', ['jscs-lib', 'jscs-test', 'jshint-lib', 'jshint-test']);
 gulp.task('instrument', function () {
     return gulp.src([
         'lib/**/*.js',
+        '!lib/juttle-subprocess.js',
         'src/**/*.js'
     ])
     .pipe(istanbul({
