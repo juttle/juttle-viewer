@@ -1,3 +1,4 @@
-emit -from :0: -limit 1
-| put v = 10
-| @logger -display.style 'json' -title 'myLogger'
+emit -from :0: -limit 3
+| pace
+| put value = 10
+| view text -format 'json' -title 'output'

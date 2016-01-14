@@ -64,16 +64,44 @@ gulp.task('instrument', function () {
     .pipe(istanbul.hookRequire());
 });
 
+function gulp_test_app() {
+    return gulp.src([
+    ])
+    .pipe(mocha({
+        log: true,
+        timeout: 5000,
+        reporter: 'spec',
+        ui: 'bdd',
+        ignoreLeaks: true,
+        globals: ['should']
+    }));
+}
+
 function gulp_test() {
-    return gulp.src('test/**/*.spec.js')
-        .pipe(mocha({
-            log: true,
-            timeout: 30000,
-            reporter: 'spec',
-            ui: 'bdd',
-            ignoreLeaks: true,
-            globals: ['should']
-        }));
+    var argv = require('minimist')(process.argv.slice(2));
+    var tests = [
+        'test/**/*.spec.js'
+    ];
+
+    // by passing the argument `--app` you can also run the app tests
+    // which require spinning up a browser, by default we do not run
+    // the app tests
+    if (!argv.app) {
+        tests.push(
+            // exclude app tests
+            '!test/app/**/*.spec.js'
+        );
+    }
+
+    return gulp.src(tests)
+    .pipe(mocha({
+        log: true,
+        timeout: 30000,
+        reporter: 'spec',
+        ui: 'bdd',
+        ignoreLeaks: true,
+        globals: ['should']
+    }));
 }
 
 gulp.task('test', function() {
@@ -82,17 +110,17 @@ gulp.task('test', function() {
 
 gulp.task('test-coverage', ['instrument'], function() {
     return gulp_test()
-        .pipe(istanbul.writeReports())
-        .pipe(istanbul.enforceThresholds({
-            thresholds: {
-                global: {
-                    statements: 71,
-                    branches: 63,
-                    functions: 61,
-                    lines: 55
-                }
+    .pipe(istanbul.writeReports())
+    .pipe(istanbul.enforceThresholds({
+        thresholds: {
+            global: {
+                statements: 76,
+                branches: 70,
+                functions: 69,
+                lines: 73 
             }
-        }));
+        }
+    }));
 });
 
 gulp.task('default', ['test', 'lint']);

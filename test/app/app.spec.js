@@ -1,56 +1,53 @@
-"use strict";
+'use strict';
 
-let DemoAppTester = require('./lib/demo-app-tester');
-let webdriver = require('selenium-webdriver');
-let expect = require('chai').expect;
+let OutriggerTester = require('./lib/outrigger-tester');
 let path = require('path');
 
-const TEST_TIMEOUT = 10000;
-const BROWSER = "from";
-const WEBDRIVER_URL = "http://localhost:9515/";
+const TEST_TIMEOUT = 30000;
 
-
-// skipped while webdriver is not properly configured in travis
-describe.skip("demo-app", function() {
+describe('demo-app', function() {
     this.timeout(TEST_TIMEOUT);
-    let driver;
-    let demoAppTester;
-    beforeEach(() => {
-        driver = new webdriver.Builder()
-            .forBrowser(BROWSER)
-            .usingServer(WEBDRIVER_URL)
-            .build();
-        demoAppTester = new DemoAppTester(driver);
+    let outriggerTester;
+
+    before((done) => {
+        outriggerTester = new OutriggerTester();
+        outriggerTester.start(done);
     });
 
-    it("open juttle program with no inputs", () => {
-        return demoAppTester.loadFile(path.join(__dirname, "juttle", "no-inputs.juttle"))
-           .then(() => {
-               return demoAppTester.getLoggerOutput('myLogger');
-           })
-           .then((value) => {
-               expect(JSON.parse(value)).to.deep.equal([{time: new Date(0).toISOString(), v: 10}]);
-           });
+    after(() => {
+        outriggerTester.stop();
     });
 
-    it("open juttle program with an input, fill it out, and run", () => {
-        return demoAppTester.loadFile(path.join(__dirname, "juttle", "one-input.juttle"))
-            .then(() => {
-                return demoAppTester.findInputControl("a");
-            })
-            .then((inputElem) => {
-                inputElem.sendKeys("AAA");
-            })
-            .then(demoAppTester.clickPlay)
-            .then(() => {
-                return demoAppTester.getLoggerOutput('myLogger');
-            })
-            .then((value) => {
-                expect(JSON.parse(value)).to.deep.equal([{time: new Date(0).toISOString(), v: "AAA"}]);
-            });
+    it('open juttle program with no inputs', () => {
+        return outriggerTester.run({
+            path: path.join(__dirname, 'juttle', 'no-inputs.juttle')
+        })
+        .then(() => {
+            return outriggerTester.waitForTextOutputToContain('output',[
+                { time: '1970-01-01T00:00:00.000Z', value: 10 },
+                { time: '1970-01-01T00:00:01.000Z', value: 10 },
+                { time: '1970-01-01T00:00:02.000Z', value: 10 }
+            ]);
+        });
     });
 
-    afterEach(() => {
-        driver.quit();
+    it('open juttle program with an input, fill it out, and run', () => {
+        return outriggerTester.run({
+            path: path.join(__dirname, 'juttle', 'one-input.juttle')
+        })
+        .then(() => {
+            return outriggerTester.writeIntoInputControl('a', 'AAA');
+        })
+        .then(() => {
+            outriggerTester.clickPlay();
+        })
+        .then(() => {
+            return outriggerTester.waitForTextOutputToContain('output',[
+				{ time: '1970-01-01T00:00:00.000Z', value: 'AAA' },
+                { time: '1970-01-01T00:00:01.000Z', value: 'AAA' },
+                { time: '1970-01-01T00:00:02.000Z', value: 'AAA' }
+            ]);
+        });
     });
+
 });
