@@ -38,3 +38,19 @@ span.logo {
     padding: 10px;
     @include flex-shrink(0);
 }
+
+.juttle-source-toggle {
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.juttle-source {
+    background-color: transparent;
+    color: inherit;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-height: 200px;
+}
