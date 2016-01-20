@@ -1,55 +1,30 @@
+var eslint = require('gulp-eslint');
 var gulp = require('gulp');
 var isparta = require('isparta');
 var istanbul = require('gulp-istanbul');
-var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
-var jscs = require('gulp-jscs');
 
-gulp.task('jscs-test', function() {
+gulp.task('lint-test', function() {
     return gulp.src([
         'test/**/*.spec.js',
     ])
-    .pipe(jscs({
-        configPath: '.jscsrc'
-    }))
-    .pipe(jscs.reporter('unix'))
-    .pipe(jscs.reporter('fail'));
+	.pipe(eslint())
+	.pipe(eslint.format())
+	.pipe(eslint.failAfterError());
 });
 
-gulp.task('jscs-lib', function() {
-    return gulp.src([
-        'bin/outrigger-client',
-        'bin/outriggerd',
-        'lib/*.js'
-    ])
-    .pipe(jscs({
-        configPath: '.jscsrc'
-    }))
-    .pipe(jscs.reporter('unix'))
-    .pipe(jscs.reporter('fail'));
-});
-
-gulp.task('jshint-test', function() {
-    return gulp.src([
-        'test/**/*.spec.js',
-    ])
-    .pipe(jshint('./test/.jshintrc'))
-    .pipe(jshint.reporter('default', { verbose: true }))
-    .pipe(jshint.reporter('fail'));
-});
-
-gulp.task('jshint-lib', function() {
+gulp.task('lint-lib', function() {
     return gulp.src([
         'bin/outrigger-client',
         'bin/outriggerd',
         'lib/**/*.js',
     ])
-    .pipe(jshint('./lib/.jshintrc'))
-    .pipe(jshint.reporter('default', { verbose: true }))
-    .pipe(jshint.reporter('fail'));
+	.pipe(eslint())
+	.pipe(eslint.format())
+	.pipe(eslint.failAfterError());
 });
 
-gulp.task('lint', ['jscs-lib', 'jscs-test', 'jshint-lib', 'jshint-test']);
+gulp.task('lint', ['lint-lib', 'lint-test']);
 
 gulp.task('instrument', function () {
     return gulp.src([
