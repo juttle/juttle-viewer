@@ -29,7 +29,6 @@ gulp.task('lint', ['lint-lib', 'lint-test']);
 gulp.task('instrument', function () {
     return gulp.src([
         'lib/**/*.js',
-        '!lib/juttle-subprocess.js',
         'src/**/*.js'
     ])
     .pipe(istanbul({
@@ -90,10 +89,10 @@ gulp.task('test-coverage', ['instrument'], function() {
     .pipe(istanbul.enforceThresholds({
         thresholds: {
             global: {
-                statements: 76,
-                branches: 70,
-                functions: 69,
-                lines: 73 
+                statements: 83,
+                branches: 76,
+                functions: 78,
+                lines: 80
             }
         }
     }));
