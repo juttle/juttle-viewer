@@ -103,6 +103,46 @@ class OutriggerTester {
     findOutputByTitle(title) {
         return this.driver.wait(until.elementLocated(By.xpath(`//div[@class='jut-chart-title' and text()='${title}']`)));
     }
+    
+    getErrorMessage() {
+        var locator = By.css('.juttle-client-library.error-view span');
+        return this.driver.wait(until.elementLocated(locator))
+        .then((element) => { 
+            return element.getAttribute('textContent');
+        });
+    }
+
+    waitForJuttleErrorToContain(message, options) { 
+        var self = this;
+        var defaults = {
+            interval: 1000,
+            timeout: 10000
+        };
+        options = _.extend(defaults, options);
+
+        return retry(() => {
+            return self.getErrorMessage()
+            .then((value) => {
+                expect(value).to.contain(message);
+            });
+        }, options);
+    }
+
+    waitForJuttleErrorToEqual(message, options) { 
+        var self = this;
+        var defaults = {
+            interval: 1000,
+            timeout: 10000
+        };
+        options = _.extend(defaults, options);
+
+        return retry(() => {
+            return self.getErrorMessage()
+            .then((value) => {
+                expect(value).to.equal(message);
+            });
+        }, options);
+    }
 
     getTextOutput(title) {
         return this.findOutputByTitle(title)
