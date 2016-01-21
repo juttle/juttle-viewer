@@ -41,7 +41,7 @@ class OutriggerTester {
     start(cb) {
         this.outrigger = new JuttledService({
             port: outrigger_port,
-            root_directory: '/',
+            root_directory: '/'
         }, cb);
 
         this.driver = new webdriver.Builder()
@@ -103,16 +103,16 @@ class OutriggerTester {
     findOutputByTitle(title) {
         return this.driver.wait(until.elementLocated(By.xpath(`//div[@class='jut-chart-title' and text()='${title}']`)));
     }
-    
+
     getErrorMessage() {
         var locator = By.css('.juttle-client-library.error-view span');
         return this.driver.wait(until.elementLocated(locator))
-        .then((element) => { 
+        .then((element) => {
             return element.getAttribute('textContent');
         });
     }
 
-    waitForJuttleErrorToContain(message, options) { 
+    waitForJuttleErrorToContain(message, options) {
         var self = this;
         var defaults = {
             interval: 1000,
@@ -128,7 +128,7 @@ class OutriggerTester {
         }, options);
     }
 
-    waitForJuttleErrorToEqual(message, options) { 
+    waitForJuttleErrorToEqual(message, options) {
         var self = this;
         var defaults = {
             interval: 1000,
