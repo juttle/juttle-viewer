@@ -1,14 +1,15 @@
 'use strict';
 
-let _ = require('underscore');
-let expect = require('chai').expect;
-let retry = require('bluebird-retry');
+var _ = require('underscore');
+var expect = require('chai').expect;
+var Promise = require('bluebird');
+var retry = require('bluebird-retry');
 
-let webdriver = require('selenium-webdriver');
-let By = webdriver.By;
-let until = webdriver.until;
+var webdriver = require('selenium-webdriver');
+var By = webdriver.By;
+var until = webdriver.until;
 
-let nconf = require('nconf');
+var nconf = require('nconf');
 nconf.argv().env();
 
 // setup log level to be quiet by default
@@ -23,7 +24,7 @@ if (!nconf.get('SELENIUM_BROWSER')) {
     process.env['SELENIUM_BROWSER'] = 'chrome';
 }
 
-let JuttledService = require('../../../lib/service-juttled');
+var JuttledService = require('../../../lib/service-juttled');
 
 const outrigger_port = 2000;
 
@@ -100,8 +101,13 @@ class OutriggerTester {
         });
     }
 
-    findOutputByTitle(title) {
-        return this.driver.wait(until.elementLocated(By.xpath(`//div[@class='jut-chart-title' and text()='${title}']`)));
+    findViewByTitle(title) {
+        var locator = `//div[@class='jut-chart-title' and text()='${title}']/ancestor::div[contains(@class,'juttle-view')]`;
+        return this.driver.wait(until.elementLocated(By.xpath(locator)));
+    }
+
+    waitForViewTitle(title) {
+        return this.findViewByTitle(title);
     }
 
     getErrorMessage() {
@@ -145,9 +151,9 @@ class OutriggerTester {
     }
 
     getTextOutput(title) {
-        return this.findOutputByTitle(title)
+        return this.findViewByTitle(title)
         .then((element) => {
-            return element.findElement(By.xpath('//textarea'));
+            return element.findElement(By.css('textarea'));
         })
         .then((elem) => {
             return elem.getAttribute('value');
@@ -166,10 +172,41 @@ class OutriggerTester {
         return retry(() => {
             return self.getTextOutput(title)
             .then((value) => {
-                //console.log('comparing', JSON.parse(value), 'to', data);
                 expect(JSON.parse(value)).to.deep.equal(data);
             });
         }, options);
+    }
+
+    getXAxisLabelsOnViewWithTitle(title) {
+        return this.findViewByTitle(title)
+        .then((view) => {
+            return this.driver.wait(until.elementLocated(By.css('.x.axis .tick text')))
+            .then(() => {
+                return view.findElements(By.css('.x.axis .tick text'));
+            });
+        });
+    }
+
+    waitForXAxisLabelOnViewWithTitle(title, labels) {
+        return this.getXAxisLabelsOnViewWithTitle(title)
+        .then(function(labelElements) {
+            return Promise.each(labelElements, function(labelElement, index) {
+                return labelElement.getAttribute('textContent')
+                .then((text) => {
+                    expect(text).to.equal(labels[index]);
+                });
+            });
+        });
+    }
+
+    getBarsOnViewWithTitle(title) {
+        return this.findViewByTitle(title)
+        .then((view) => {
+            return this.driver.wait(until.elementLocated(By.css('rect.bar')))
+            .then(() => {
+                return view.findElements(By.css('rect.bar'));
+            });
+        });
     }
 
     run(options) {
