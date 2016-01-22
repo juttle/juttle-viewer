@@ -17,6 +17,7 @@ read stochastic -source 'cdn' -nhosts 10 -from :10 minutes before 2014-01-01: -t
     },
     tooltip: {
       valueFormat: '%'
-    }
+    },
+    orientation: 'horizontal'
   }
 
