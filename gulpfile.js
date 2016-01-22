@@ -6,7 +6,7 @@ var mocha = require('gulp-mocha');
 
 gulp.task('lint-test', function() {
     return gulp.src([
-        'test/**/*.spec.js',
+        'test/**/*.spec.js'
     ])
 	.pipe(eslint())
 	.pipe(eslint.format())
@@ -18,6 +18,7 @@ gulp.task('lint-lib', function() {
         'bin/outrigger-client',
         'bin/outriggerd',
         'lib/**/*.js',
+        'gulpfile.js'
     ])
 	.pipe(eslint())
 	.pipe(eslint.format())
@@ -38,19 +39,6 @@ gulp.task('instrument', function () {
     }))
     .pipe(istanbul.hookRequire());
 });
-
-function gulp_test_app() {
-    return gulp.src([
-    ])
-    .pipe(mocha({
-        log: true,
-        timeout: 5000,
-        reporter: 'spec',
-        ui: 'bdd',
-        ignoreLeaks: true,
-        globals: ['should']
-    }));
-}
 
 function gulp_test() {
     var argv = require('minimist')(process.argv.slice(2));
