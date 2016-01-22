@@ -72,17 +72,34 @@ gulp.task('test', function() {
 });
 
 gulp.task('test-coverage', ['instrument'], function() {
+    var argv = require('minimist')(process.argv.slice(2));
+    var coverage;
+
+    // different coverage numbers when running with and without app tests
+    if (argv.app) { 
+        coverage = {
+            global: {
+                statements: 84,
+                branches: 78,
+                functions: 81,
+                lines: 81
+            }
+        };
+    } else {
+        coverage = {
+            global: {
+                statements: 84,
+                branches: 77,
+                functions: 80,
+                lines: 81
+            }
+        }
+    }
+
     return gulp_test()
     .pipe(istanbul.writeReports())
     .pipe(istanbul.enforceThresholds({
-        thresholds: {
-            global: {
-                statements: 83,
-                branches: 76,
-                functions: 78,
-                lines: 80
-            }
-        }
+        thresholds: coverage
     }));
 });
 
