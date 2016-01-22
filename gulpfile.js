@@ -8,9 +8,9 @@ gulp.task('lint-test', function() {
     return gulp.src([
         'test/**/*.spec.js'
     ])
-	.pipe(eslint())
-	.pipe(eslint.format())
-	.pipe(eslint.failAfterError());
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
 gulp.task('lint-lib', function() {
@@ -20,9 +20,9 @@ gulp.task('lint-lib', function() {
         'lib/**/*.js',
         'gulpfile.js'
     ])
-	.pipe(eslint())
-	.pipe(eslint.format())
-	.pipe(eslint.failAfterError());
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
 gulp.task('lint', ['lint-lib', 'lint-test']);
@@ -76,7 +76,7 @@ gulp.task('test-coverage', ['instrument'], function() {
     var coverage;
 
     // different coverage numbers when running with and without app tests
-    if (argv.app) { 
+    if (argv.app) {
         coverage = {
             global: {
                 statements: 84,

@@ -61,7 +61,7 @@ describe('demo-app', function() {
         })
         .then(() => {
             return outriggerTester.waitForTextOutputToContain('output',[
-				{ time: '1970-01-01T00:00:00.000Z', value: 'AAA' },
+                { time: '1970-01-01T00:00:00.000Z', value: 'AAA' },
                 { time: '1970-01-01T00:00:00.100Z', value: 'AAA' },
                 { time: '1970-01-01T00:00:00.200Z', value: 'AAA' }
             ]);
