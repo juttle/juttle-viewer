@@ -3,7 +3,7 @@
 let OutriggerTester = require('./lib/outrigger-tester');
 let path = require('path');
 
-const TEST_TIMEOUT = 30000;
+const TEST_TIMEOUT = 10000;
 
 describe('demo-app', function() {
     this.timeout(TEST_TIMEOUT);
@@ -43,8 +43,8 @@ describe('demo-app', function() {
         .then(() => {
             return outriggerTester.waitForTextOutputToContain('output',[
                 { time: '1970-01-01T00:00:00.000Z', value: 10 },
-                { time: '1970-01-01T00:00:01.000Z', value: 10 },
-                { time: '1970-01-01T00:00:02.000Z', value: 10 }
+                { time: '1970-01-01T00:00:00.100Z', value: 10 },
+                { time: '1970-01-01T00:00:00.200Z', value: 10 }
             ]);
         });
     });
@@ -62,8 +62,8 @@ describe('demo-app', function() {
         .then(() => {
             return outriggerTester.waitForTextOutputToContain('output',[
 				{ time: '1970-01-01T00:00:00.000Z', value: 'AAA' },
-                { time: '1970-01-01T00:00:01.000Z', value: 'AAA' },
-                { time: '1970-01-01T00:00:02.000Z', value: 'AAA' }
+                { time: '1970-01-01T00:00:00.100Z', value: 'AAA' },
+                { time: '1970-01-01T00:00:00.200Z', value: 'AAA' }
             ]);
         });
     });
