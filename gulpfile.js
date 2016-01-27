@@ -80,18 +80,18 @@ gulp.task('test-coverage', ['instrument'], function() {
         coverage = {
             global: {
                 statements: 84,
-                branches: 78,
-                functions: 81,
-                lines: 81
+                branches: 80,
+                functions: 82,
+                lines: 82
             }
         };
     } else {
         coverage = {
             global: {
                 statements: 84,
-                branches: 77,
-                functions: 80,
-                lines: 81
+                branches: 79,
+                functions: 81,
+                lines: 82
             }
         }
     }
