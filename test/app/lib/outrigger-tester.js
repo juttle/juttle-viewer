@@ -3,6 +3,7 @@
 let _ = require('underscore');
 let expect = require('chai').expect;
 let Promise = require('bluebird');
+let findFreePort = Promise.promisify(require('find-free-port'));
 let retry = require('bluebird-retry');
 
 let webdriver = require('selenium-webdriver');
@@ -26,17 +27,19 @@ if (!nconf.get('SELENIUM_BROWSER')) {
 
 let JuttledService = require('../../../lib/service-juttled');
 
-const OUTRIGGER_PORT = 2000;
-
 class OutriggerTester {
     start(cb) {
-        this.outrigger = new JuttledService({
-            port: OUTRIGGER_PORT,
-            root_directory: '/'
-        }, cb);
+        findFreePort(10000, 20000)
+        .then((port) => {
+            this.port = port;
+            this.outrigger = new JuttledService({
+                port: port,
+                root_directory: '/'
+            }, cb);
 
-        this.driver = new webdriver.Builder()
-            .build();
+            this.driver = new webdriver.Builder()
+                .build();
+        });
     }
 
     stop() {
@@ -297,7 +300,7 @@ class OutriggerTester {
             return `${name}=${value}`;
         });
         var host = nconf.get('OUTRIGGER_HOST') || 'localhost';
-        return this.driver.get('http://' + host + ':' + OUTRIGGER_PORT +
+        return this.driver.get('http://' + host + ':' + this.port +
                                '/run?' + params.join('&'));
     }
 }
