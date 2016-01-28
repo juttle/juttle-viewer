@@ -18,6 +18,7 @@ gulp.task('lint-lib', function() {
         'bin/outrigger-client',
         'bin/outriggerd',
         'lib/**/*.js',
+        'src/**/*.js',
         'gulpfile.js'
     ])
     .pipe(eslint())

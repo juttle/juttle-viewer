@@ -15,11 +15,11 @@ import '../sass/main.scss';
 // construct client plus views and inputs
 let outriggerHost = window.location.host;
 let client = new Juttle(outriggerHost);
-let view = new client.View(document.getElementById("juttle-view-layout"));
-let inputs = new client.Input(document.getElementById("juttle-input-groups"));
-let errors = new client.Errors(document.getElementById("error-view"));
+let view = new client.View(document.getElementById('juttle-view-layout'));
+let inputs = new client.Input(document.getElementById('juttle-input-groups'));
+let errors = new client.Errors(document.getElementById('error-view'));
 let renderError = errors.render.bind(errors);
-let juttleSourceEl = document.getElementById("juttle-source");
+let juttleSourceEl = document.getElementById('juttle-source');
 
 let currentBundle;
 let parsed = url.parse(window.location.href, true);
@@ -60,7 +60,7 @@ if (parsed.query.path) {
 }
 
 // run btn click
-document.getElementById("btn-run").addEventListener("click", () => {
+document.getElementById('btn-run').addEventListener('click', () => {
     view.run(currentBundle, inputs.getValues())
         .catch(renderError);
 });

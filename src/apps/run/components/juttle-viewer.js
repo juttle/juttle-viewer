@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class JuttleViewer extends Component {
     constructor() {
@@ -18,13 +18,13 @@ class JuttleViewer extends Component {
         let juttleSource = false;
 
         if (this.state.sourceVisible) {
-            juttleSource = (<pre className="juttle-source">{this.props.juttleSource}</pre>);
+            juttleSource = (<pre className='juttle-source'>{this.props.juttleSource}</pre>);
         }
 
         return (
             <div>
-                <a className="juttle-source-toggle" onClick={this._onToggleVisiblityClick.bind(this)}>
-                    {this.state.sourceVisible ? "Hide Juttle" : "Show Juttle"}
+                <a className='juttle-source-toggle' onClick={this._onToggleVisiblityClick.bind(this)}>
+                    {this.state.sourceVisible ? 'Hide Juttle' : 'Show Juttle'}
                 </a>
                 {juttleSource}
             </div>
