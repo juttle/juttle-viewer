@@ -16,6 +16,7 @@ gulp.task('lint-test', function() {
 gulp.task('lint-lib', function() {
     return gulp.src([
         'src/**/*.js',
+        'webpack.config.js',
         'gulpfile.js'
     ])
     .pipe(eslint())
