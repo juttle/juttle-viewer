@@ -15,10 +15,14 @@ class JuttleViewer extends Component {
     }
 
     render() {
+        if (!this.props.juttleSource) {
+            return false;
+        }
+
         let juttleSource = false;
 
         if (this.state.sourceVisible) {
-            juttleSource = (<pre className='juttle-source'>{this.props.juttleSource}</pre>);
+            juttleSource = (<pre className='juttle-source'>{this.props.juttleSource.program}</pre>);
         }
 
         return (

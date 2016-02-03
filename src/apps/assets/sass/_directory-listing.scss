@@ -1,0 +1,15 @@
+.dir-list {
+    .dir-list-item {
+        display: block;
+        padding: 10px 15px;
+    }
+
+    .dir-list-item.path {
+        border-bottom: 1px solid $gray-pale;
+    }
+
+    .dir-entry:hover {
+        text-decoration: none;
+        background-color: $gray-pale;
+    }
+}

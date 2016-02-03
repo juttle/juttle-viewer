@@ -1,15 +1,12 @@
+//@import "../../../node_modules/font-awesome/scss/font-awesome";
 @import "./bootstrap-variables";
 @import "./bootstrap";
 @import "./flexbox";
 @import "./juttle-client-library-overrides";
+@import "directory-listing";
 
-html, body {
+html, body, #app {
     height: 100%;
-}
-
-#app {
-    min-height: 100%;
-    display: flex;
 }
 
 span.logo {
@@ -17,19 +14,35 @@ span.logo {
     font-weight: bolder;
     font-family: Rockwell Extra Bold;
     vertical-align: middle;
+
 }
 
-.outrigger {
+header {
+    border-bottom: 1px solid $gray-dark;
+    height: 60px;
+    padding: 0 15px;
+    @include flexbox;
+    .header-options {
+        @include flexbox;
+        @include align-items(center);
+    }
+}
+
+.app-wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.app-main {
     min-height: 100%;
     width: 100%;
     @include flexbox;
 }
 
-
 .main-view {
     @include flex-grow(1);
     overflow: hidden;
-    margin: 10px;
+    margin: 15px;
 }
 
 .right-rail {
@@ -52,4 +65,13 @@ span.logo {
     color: inherit;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.dropdown-menu {
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+#directory-listing.dropdown-menu {
+    width: 300px;
 }
