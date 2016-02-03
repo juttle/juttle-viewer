@@ -22,7 +22,7 @@ class RunApp extends React.Component {
         if (nextProps.bundle !== this.props.bundle) {
             this.errors.clear();
             this.inputs.clear();
-            
+
             this.view.clear()
             .then(() => {
                 if (nextProps.bundle) {
@@ -58,7 +58,7 @@ class RunApp extends React.Component {
         return (
             <div className="app-main">
                 <div className="main-view">
-                    <JuttleViewer juttleSource={this.props.bundle} />
+                    <JuttleViewer bundle={this.props.bundle} />
                     <div ref="juttleSource"></div>
                     <div ref="juttleViewLayout"></div>
                     <div ref="errorView"></div>
