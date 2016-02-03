@@ -1,0 +1,27 @@
+// use bootstrap vars for overrides
+
+.juttle-client-library {
+    .form-control {
+        background-color: $input-bg;
+        color: $input-color;
+        border-color: $input-border;
+    }
+
+    .Select,
+    .Select.is-open,
+    .Select.has-value,
+    .Select.is-focused.is-pseudo-focused {
+        .Select-control,
+        .Select-control .Select-value .Select-value-label,
+        .Select-menu-outer,
+        .Select-option {
+            background-color: $input-bg;
+            color: $input-color;
+            border-color: $input-border;
+        }
+
+        .Select-option:hover {
+            background-color: $component-active-bg;
+        }
+    }
+}
