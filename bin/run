@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+'use strict';
+
+let path = require('path');
+let appRouter = require('../src/router');
+let express = require('express');
+let webpack = require('webpack');
+let webpackDevMiddleware = require('webpack-dev-middleware');
+let webpackConfig = require('../webpack.config');
+
+let argv = require('yargs')
+    .usage('Usage: $0 [options]')
+    .option('p', {
+        alias: 'port',
+        describe: 'Port to serve app on',
+        default: 2000
+    })
+    .option('j', {
+        alias: 'juttle-engine',
+        describe: 'Host for juttle-engine',
+        default: 'localhost:8080'
+    })
+    .help('h')
+    .alias('h', 'help')
+    .argv;
+
+let port = argv.p;
+let app = express();
+let assetPath = webpackConfig.output.publicPath;
+let compiler = webpack(webpackConfig);
+
+// override router
+app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: assetPath
+}));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../src/apps/assets/index.html'));
+});
+
+app.use(appRouter());
+
+app.listen(port, () => {
+    console.info('==> Listening on port %s. Open up http://localhost:%s/ in your browser.', port, port);
+});

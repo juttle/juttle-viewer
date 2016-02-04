@@ -10,8 +10,8 @@
     "test": "gulp test",
     "shrinkwrap": "npm-shrinkwrap",
     "clean": "rimraf dist",
-    "build-client": "webpack",
-    "prepublish": "npm run clean && npm run build-client"
+    "build": "webpack --config webpack.config.js",
+    "prepublish": "npm run clean && npm run client"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
   "dependencies": {
     "bootstrap-sass": "^3.3.6",
     "eventemitter3": "^1.1.1",
+    "express": "^4.13.4",
     "fast-url-parser": "^1.1.3",
     "font-awesome": "^4.5.0",
     "isomorphic-fetch": "^2.2.1",
@@ -40,7 +41,8 @@
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0-rc5",
     "react-router-redux": "^3.0.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "yargs": "^3.32.0"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",
@@ -70,6 +72,7 @@
     "selenium-webdriver": "^2.48.2",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
-    "webpack": "^1.12.12"
+    "webpack": "^1.12.12",
+    "webpack-dev-middleware": "^1.5.1"
   }
 }
