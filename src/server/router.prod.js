@@ -28,7 +28,7 @@ module.exports = () => {
     router.use('/assets', express.static(DIST_DIR));
 
     router.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '../apps/assets/index.html'));
+        res.sendFile(path.join(__dirname, '../../dist/index.html'));
     });
 
     return router;

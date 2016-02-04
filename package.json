@@ -10,8 +10,8 @@
     "test": "gulp test",
     "shrinkwrap": "npm-shrinkwrap",
     "clean": "rimraf dist",
-    "build": "webpack --config webpack.config.js",
-    "prepublish": "npm run clean && npm run client"
+    "build": "webpack --config webpack.config.js && cp src/apps/assets/index.html dist",
+    "prepublish": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
