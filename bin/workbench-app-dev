@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+'use strict';
+let baseScript = require('./workbench-app-base')
+let devRouter = require('../src/server/router.dev');
+
+baseScript(devRouter);
