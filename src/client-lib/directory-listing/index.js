@@ -20,7 +20,7 @@ class DirectoryListing extends Component {
     }
 
     fetchDirectory(currentPath) {
-        getDirectory(currentPath)
+        getDirectory(this.props.juttleEngineHost, currentPath)
         .then(list => {
             this.setState(Object.assign({}, list, { status: 'ready' }));
         })

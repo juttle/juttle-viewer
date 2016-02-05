@@ -2,16 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 
-import * as actions from '../actions';
+import * as actions from '../../actions';
 
 import Juttle from 'juttle-client-library';
-import JuttleViewer from './components/juttle-viewer';
+import JuttleViewer from './juttle-viewer';
 
 
 class RunApp extends React.Component {
     componentDidMount() {
         // construct client plus views and inputs
-        let client = new Juttle(window.location.host);
+        let client = new Juttle(this.props.juttleEngineHost);
         this.view = new client.View(this.refs.juttleViewLayout);
         this.inputs = new client.Input(this.refs.juttleInputGroups);
         this.errors = new client.Errors(this.refs.errorView);
@@ -81,7 +81,8 @@ function select(state) {
     return {
         error: state.bundleInfo.error,
         bundle: state.bundleInfo.bundle,
-        inputs: state.bundleInfo.inputs
+        inputs: state.bundleInfo.inputs,
+        juttleEngineHost: state.juttleEngineHost
     };
 }
 

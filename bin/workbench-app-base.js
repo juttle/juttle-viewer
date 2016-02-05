@@ -19,9 +19,12 @@ let argv = require('yargs')
 
 module.exports = function(appRouter) {
     let port = argv.p;
+    let juttleEngineHost = argv.j;
     let app = express();
 
-    app.use(appRouter());
+    app.use(appRouter({
+        juttleEngineHost: juttleEngineHost
+    }));
 
     app.listen(port, () => {
         console.info('==> Listening on port %s. Open up http://localhost:%s/ in your browser.', port, port);
