@@ -1,26 +1,15 @@
 'use strict';
-
 let path = require('path');
-let express = require('express');
 let webpack = require('webpack');
 let webpackDevMiddleware = require('webpack-dev-middleware');
+let routerBase = require('./router.base');
 
 let webpackConfig = require('../../webpack.config');
 
-module.exports = () => {
-    let router = express.Router();
-
-    let assetPath = webpackConfig.output.publicPath;
-
+module.exports = (opts) => {
     let compiler = webpack(webpackConfig);
-    router.use(webpackDevMiddleware(compiler, {
-        noInfo: true,
-        publicPath: assetPath
-    }));
+    let assetsMiddleware = webpackDevMiddleware(compiler, { noInfo: true });
+    let indexPath = path.join(__dirname, '../apps/assets/index.html');
 
-    router.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '../apps/assets/index.html'));
-    });
-
-    return router;
+    return routerBase(opts, assetsMiddleware, indexPath);
 };

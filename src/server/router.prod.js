@@ -1,13 +1,12 @@
 'use strict';
-
 let fs = require('fs');
 let path = require('path');
 let express = require('express');
+let routerBase = require('./router.base');
 
 let DIST_DIR = path.join(__dirname, '../..', 'dist');
 
-module.exports = () => {
-    let router = express.Router();
+module.exports = (opts) => {
     let distDirExists = false;
 
     try {
@@ -24,12 +23,8 @@ module.exports = () => {
         throw error;
     }
 
-    // serve static assets from dist
-    router.use('/assets', express.static(DIST_DIR));
+    let assetsMiddleware = express.static(DIST_DIR);
+    let indexPath = path.join(DIST_DIR, 'index.html');
 
-    router.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '../../dist/index.html'));
-    });
-
-    return router;
+    return routerBase(opts, assetsMiddleware, indexPath);
 };
