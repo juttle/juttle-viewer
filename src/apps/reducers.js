@@ -51,9 +51,17 @@ function bundleInfo(state = defaultBundleInfo, action) {
     }
 }
 
+// don't support the ability to change juttleEngineHosts, but this may
+// be done in the future. Either way we want to put this in the store,
+// the actual values on provided on store init.
+function juttleEngineHost(state = null) {
+    return state
+}
+
 const reducers = combineReducers({
     runMode,
-    bundleInfo
+    bundleInfo,
+    juttleEngineHost
 });
 
 export default reducers;

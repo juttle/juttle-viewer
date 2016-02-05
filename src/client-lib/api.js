@@ -22,12 +22,12 @@ function makeRequest(uri, options) {
     });
 }
 
-export let getBundle = (path) => {
-    return makeRequest(`${API_PREFIX}/paths${path}`);
+export let getBundle = (host, path) => {
+    return makeRequest(`http://${host}${API_PREFIX}/paths${path}`);
 };
 
-export let describe = (bundle) => {
-    return makeRequest(`${API_PREFIX}/prepare`, {
+export let describe = (host, bundle) => {
+    return makeRequest(`http://${host}${API_PREFIX}/prepare`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ export let describe = (bundle) => {
     });
 }
 
-export let getDirectory = (path) => {
+export let getDirectory = (host, path) => {
     path = path || '/';
-    return makeRequest(`${API_PREFIX}/directory?path=${path}`);
+    return makeRequest(`http://${host}${API_PREFIX}/directory?path=${path}`);
 };

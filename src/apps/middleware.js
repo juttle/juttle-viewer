@@ -4,14 +4,12 @@ import { newBundle, fetchBundleError } from './actions';
 import * as api from '../client-lib/api';
 import RendezvousSocket from '../client-lib/rendezvous-socket';
 
-// this should come from a config options, do this for now
-let outriggerHost = window.location.host;
-
 export const bundleMiddleware = store => {
     let rendezvous;
+    let { juttleEngineHost } = store.getState();
 
     function bundleReceived(bundle) {
-        return api.describe(bundle)
+        return api.describe(juttleEngineHost, bundle)
         .then(inputs => {
             store.dispatch(newBundle(bundle, inputs));
         })
@@ -23,12 +21,12 @@ export const bundleMiddleware = store => {
         }
 
         if (runMode.path) {
-            api.getBundle(runMode.path)
+            api.getBundle(juttleEngineHost, runMode.path)
             .then(res => { bundleReceived(res.bundle) })
             .catch(err => { store.dispatch(fetchBundleError(err)) })
         } else if (runMode.rendezvous) {
 
-            rendezvous = new RendezvousSocket(`ws://${outriggerHost}/rendezvous/${runMode.rendezvous}`);
+            rendezvous = new RendezvousSocket(`ws://${juttleEngineHost}/rendezvous/${runMode.rendezvous}`);
             rendezvous.on('message', msg => bundleReceived(msg.bundle));
         }
     }

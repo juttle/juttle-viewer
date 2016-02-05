@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+'use strict';
+let baseScript = require('./workbench-app-base');
+let prodRouter = require('../src/server');
+
+try {
+    baseScript(prodRouter);
+}
+catch(err) {
+    if (err.code === 'DIST-NOT-FOUND') {
+        console.error('Error: Directory \'dist\' not found.');
+        console.error('       Try running \'npm run build\' and run this again.');
+    } else {
+        console.error('Error:', err.message);
+    }
+}
