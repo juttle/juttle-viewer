@@ -13,33 +13,47 @@ let argv = require('yargs')
     .option('p', {
         alias: 'port',
         describe: 'Port to serve app on',
-        default: 2000
+        default: 2001
     })
     .option('j', {
-        alias: 'juttle-engine',
-        describe: 'Host for juttle-engine',
-        default: 'localhost:8080'
+        alias: 'juttle-service',
+        describe: 'Host for juttle-service',
+        default: 'localhost:2000'
+    })
+    .option('d', {
+        alias: 'dist',
+        describe: 'Run in dist (production) mode',
+        boolean: true,
+        default: false
     })
     .help('h')
     .alias('h', 'help')
     .argv;
 
 let port = argv.p;
+let juttleServiceHost = argv.j;
+let isProduction  = argv.d;
 let app = express();
 let assetPath = webpackConfig.output.publicPath;
 let compiler = webpack(webpackConfig);
 
-// override router
-app.use(webpackDevMiddleware(compiler, {
-    noInfo: true,
-    publicPath: assetPath
-}));
+if (isProduction) {
+    app.use(appRouter({juttleServiceHost: juttleServiceHost}));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../src/apps/assets/index.html'));
-});
+} else {
+    // override router
+    app.use(webpackDevMiddleware(compiler, {
+        noInfo: true,
+        publicPath: assetPath
+    }));
 
-app.use(appRouter());
+    app.use(appRouter({
+        indexPath: path.join(__dirname, '../src/apps/assets/index.html'),
+        juttleServiceHost: juttleServiceHost
+    }));
+}
+
+
 
 app.listen(port, () => {
     console.info('==> Listening on port %s. Open up http://localhost:%s/ in your browser.', port, port);

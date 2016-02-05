@@ -8,8 +8,8 @@ import { Provider } from 'react-redux';
 import reducers from './reducers';
 import { bundleMiddleware } from './middleware';
 
-import App from './app';
-import Run from './run';
+import App from './components/app';
+import Run from './components/run';
 
 
 // import sass
@@ -20,7 +20,7 @@ import './assets/sass/main.scss';
 // setup redux
 const reduxRouterMiddeware = syncHistory(browserHistory);
 const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddeware, bundleMiddleware)(createStore);
-const store = createStoreWithMiddleware(reducers);
+const store = createStoreWithMiddleware(reducers, { juttleServiceHost: window.JUTTLE_SERVICE_HOST });
 
 // setup main app
 ReactDOM.render((
