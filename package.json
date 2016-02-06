@@ -1,8 +1,12 @@
 {
-  "name": "juttle-workbench-app",
+  "name": "juttle-viewer",
   "version": "0.0.0",
   "description": "application to develop and execute juttle programs",
-  "main": "",
+  "main": "src/router/index.js",
+  "files": [
+    "dist",
+    "src/router"
+  ],
   "directories": {
     "test": "test"
   },
@@ -10,12 +14,12 @@
     "test": "gulp test",
     "shrinkwrap": "npm-shrinkwrap",
     "clean": "rimraf dist",
-    "build": "webpack --config webpack.config.js && cp src/apps/assets/index.html dist",
+    "build": "webpack && cp src/apps/assets/index.html dist",
     "prepublish": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/juttle/juttle-workbench-app.git"
+    "url": "git+https://github.com/juttle/juttle-viewer.git"
   },
   "keywords": [
     "juttle",
@@ -26,24 +30,12 @@
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/juttle/juttle-workbench-app/issues"
+    "url": "https://github.com/juttle/juttle-viewer/issues"
   },
-  "homepage": "https://github.com/juttle/juttle-workbench-app#readme",
+  "homepage": "https://github.com/juttle/juttle-viewer#readme",
   "dependencies": {
-    "bootstrap-sass": "^3.3.6",
     "dot": "^1.0.3",
-    "eventemitter3": "^1.1.1",
-    "express": "^4.13.4",
-    "fast-url-parser": "^1.1.3",
-    "font-awesome": "^4.5.0",
-    "isomorphic-fetch": "^2.2.1",
-    "juttle-client-library": "0.3.0",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7",
-    "react-router": "^2.0.0-rc5",
-    "react-router-redux": "^3.0.0",
-    "underscore": "^1.8.3",
-    "yargs": "^3.32.0"
+    "express": "^4.13.4"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",
@@ -54,26 +46,41 @@
     "babel-preset-react": "^6.3.13",
     "bluebird": "^3.2.1",
     "bluebird-retry": "^0.5.3",
+    "bootstrap-sass": "^3.3.6",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
     "eslint-plugin-react": "^3.16.1",
+    "eventemitter3": "^1.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "fast-url-parser": "^1.1.3",
     "file-loader": "^0.8.5",
     "find-free-port": "^1.0.2",
+    "font-awesome": "^4.5.0",
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.1.1",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0",
+    "history": "^2.0.0",
+    "isomorphic-fetch": "^2.2.1",
     "isparta": "^4.0.0",
     "json-loader": "^0.5.4",
+    "juttle-client-library": "0.3.0",
     "node-sass": "^3.4.2",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-redux": "^4.4.0",
+    "react-router": "^2.0.0-rc6",
+    "react-router-redux": "^3.0.0",
+    "redux": "^3.3.0",
     "resolve-url-loader": "^1.4.3",
     "rimraf": "^2.5.1",
     "sass-loader": "^3.1.2",
     "selenium-webdriver": "^2.48.2",
     "style-loader": "^0.13.0",
+    "underscore": "^1.8.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.12",
-    "webpack-dev-middleware": "^1.5.1"
+    "webpack-dev-middleware": "^1.5.1",
+    "yargs": "^3.32.0"
   }
 }

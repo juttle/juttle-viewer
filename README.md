@@ -1,2 +1,2 @@
-# juttle-workbench-app
-application to develop and execute juttle programs 
+# juttle-viewer
+application to develop and execute juttle programs
