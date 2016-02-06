@@ -1,6 +1,6 @@
 {
   "name": "juttle-viewer",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "application to develop and execute juttle programs",
   "main": "src/router/index.js",
   "files": [
