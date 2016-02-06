@@ -31,10 +31,11 @@ header {
 .app-wrapper {
     height: 100%;
     width: 100%;
+    @include flexbox;
+    @include flex-direction(column);
 }
 
 .app-main {
-    min-height: 100%;
     width: 100%;
     @include flexbox;
 }
