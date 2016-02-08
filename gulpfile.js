@@ -4,29 +4,6 @@ var isparta = require('isparta');
 var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
 
-gulp.task('lint-test', function() {
-    return gulp.src([
-        'test/**/*.spec.js'
-    ])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
-});
-
-gulp.task('lint-lib', function() {
-    return gulp.src([
-        'src/**/*.js',
-        'bin/**',
-        'webpack.config.js',
-        'gulpfile.js'
-    ])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
-});
-
-gulp.task('lint', ['lint-lib', 'lint-test']);
-
 gulp.task('instrument', function () {
     return gulp.src([
         'src/**/*.js'
@@ -76,4 +53,4 @@ gulp.task('test-coverage', ['instrument'], function() {
     }));
 });
 
-gulp.task('default', ['test', 'lint']);
+gulp.task('default', ['test']);

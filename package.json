@@ -12,6 +12,7 @@
   },
   "scripts": {
     "test": "gulp test",
+    "lint": "eslint bin src test",
     "shrinkwrap": "npm-shrinkwrap",
     "clean": "rimraf dist",
     "build": "webpack && cp src/apps/assets/index.html dist",
@@ -49,6 +50,7 @@
     "bootstrap-sass": "^3.3.6",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
+    "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.16.1",
     "eventemitter3": "^1.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -57,7 +59,6 @@
     "find-free-port": "^1.0.2",
     "font-awesome": "^4.5.0",
     "gulp": "^3.9.0",
-    "gulp-eslint": "^1.1.1",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0",
     "history": "^2.0.0",
