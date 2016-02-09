@@ -1,8 +1,10 @@
-var eslint = require('gulp-eslint');
 var gulp = require('gulp');
 var isparta = require('isparta');
 var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
+
+// required to run gulp-mocha on babel code
+require('babel-core/register');
 
 gulp.task('instrument', function () {
     return gulp.src([

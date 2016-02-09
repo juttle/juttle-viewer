@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
 import reducers from './reducers';
-import { bundleMiddleware } from './middleware';
+import observers from './observers';
 
 import App from './components/app';
 import Run from './components/run';
@@ -19,8 +19,9 @@ import './assets/sass/main.scss';
 
 // setup redux
 const reduxRouterMiddeware = syncHistory(browserHistory);
-const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddeware, bundleMiddleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddeware)(createStore);
 const store = createStoreWithMiddleware(reducers, { juttleServiceHost: window.JUTTLE_SERVICE_HOST });
+observers(store);
 
 // setup main app
 ReactDOM.render((
