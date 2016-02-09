@@ -33,7 +33,7 @@ class FakeStore {
     }
 
     dispatch(action) {
-        this.event.emit('action', action);
+        this.event.emit(action.type, action);
     }
 }
 
@@ -77,7 +77,7 @@ describe('bundleMiddleware', () => {
             runMode: { path: null, rendezvous: null }
         });
 
-        store.event.once('action', (action) => {
+        store.event.once(NEW_BUNDLE, (action) => {
             expect(action).to.deep.equal({
                 type: NEW_BUNDLE,
                 bundle: fakeJuttle1,
@@ -121,7 +121,7 @@ describe('bundleMiddleware', () => {
         });
 
 
-        store.event.once('action', (action) => {
+        store.event.once(NEW_BUNDLE, (action) => {
             expect(action).to.deep.equal({
                 type: NEW_BUNDLE,
                 bundle: fakeJuttle2,
@@ -163,7 +163,7 @@ describe('bundleMiddleware', () => {
             }
         });
 
-        store.event.once('action', (action) => {
+        store.event.once(NEW_BUNDLE, (action) => {
             expect(action).to.deep.equal({
                 type: NEW_BUNDLE,
                 bundle: rendezJuttle,
