@@ -1,5 +1,5 @@
 export default function observeStore(store, select, onChange) {
-    let currentState = store.getState();
+    let currentState;
 
     function handleChange() {
         let nextState = select(store.getState());
@@ -10,5 +10,6 @@ export default function observeStore(store, select, onChange) {
     }
 
     let unsubscribe = store.subscribe(handleChange);
+    handleChange();
     return unsubscribe;
 }

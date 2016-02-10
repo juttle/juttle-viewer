@@ -15,6 +15,7 @@ function runMode(store) {
             .then(inputs => {
                 store.dispatch(newBundle(bundle, inputs));
             })
+            .catch(err => { store.dispatch(fetchBundleError(err)) })
         }
 
         if (rendezvous) {
@@ -23,7 +24,7 @@ function runMode(store) {
 
         if (runMode.path) {
             api.getBundle(juttleServiceHost, runMode.path)
-            .then(res => { bundleReceived(res.bundle) })
+            .then(res => bundleReceived(res.bundle))
             .catch(err => { store.dispatch(fetchBundleError(err)) })
         } else if (runMode.rendezvous) {
             rendezvous = new RendezvousSocket(`ws://${juttleServiceHost}/rendezvous/${runMode.rendezvous}`);
