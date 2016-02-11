@@ -5,7 +5,9 @@
         <title>Jut Development</title>
         <link rel="stylesheet" type="text/css" href="/assets/main.css">
         <script type="text/javascript">
-            window.JUTTLE_SERVICE_HOST = '{{=it.JUTTLE_SERVICE_HOST}}';
+            <% if (info.JUTTLE_SERVICE_HOST) { %>
+                window.JUTTLE_SERVICE_HOST = '<%= info.JUTTLE_SERVICE_HOST %>';
+            <% } %>
         </script>
     </head>
     <body class="app-body">
