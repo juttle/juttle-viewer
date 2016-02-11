@@ -18,9 +18,10 @@ import 'font-awesome/css/font-awesome.css';
 import './assets/sass/main.scss';
 
 // setup redux
+let juttleServiceHost = window.JUTTLE_SERVICE_HOST || window.location.host;
 const reduxRouterMiddeware = syncHistory(browserHistory);
 const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddeware)(createStore);
-const store = createStoreWithMiddleware(reducers, { juttleServiceHost: window.JUTTLE_SERVICE_HOST });
+const store = createStoreWithMiddleware(reducers, { juttleServiceHost });
 observers(store);
 
 // setup main app
