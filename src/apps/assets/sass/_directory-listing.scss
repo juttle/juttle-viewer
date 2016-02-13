@@ -1,7 +1,12 @@
 .dir-list {
+    background-color: $input-bg;
+    border-color: $input-border;
+
+
     .dir-list-item {
         display: block;
         padding: 10px 15px;
+        color: $gray-pale;
     }
 
     .dir-list-item.path {
@@ -10,6 +15,6 @@
 
     .dir-entry:hover {
         text-decoration: none;
-        background-color: $gray-pale;
+        background-color: $gray;
     }
 }
