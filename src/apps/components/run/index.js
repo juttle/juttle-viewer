@@ -43,7 +43,10 @@ class RunApp extends React.Component {
     runView = () => {
         let { dispatch } = this.props;
 
-        this.view.run(this.props.bundle, this.inputs.getValues())
+        this.inputs.getValues()
+        .then((values) => {
+            return this.view.run(this.props.bundle, values);
+        })
         .then(jobEvents => {
             jobEvents.on('error', (err) => { dispatch(actions.newError(err)) });
             jobEvents.on('warning', (warning) => { dispatch(actions.newError(warning)) });
