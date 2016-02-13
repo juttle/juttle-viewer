@@ -6,7 +6,7 @@ import * as actions from '../../actions';
 
 import Juttle from 'juttle-client-library';
 import JuttleViewer from './juttle-viewer';
-
+import url from 'fast-url-parser';
 
 class RunApp extends React.Component {
     componentDidMount() {
@@ -26,9 +26,10 @@ class RunApp extends React.Component {
             this.view.clear()
             .then(() => {
                 if (nextProps.bundle) {
+                    let location = url.parse(window.location.href, true);
                     this.inputs.render(nextProps.bundle);
                     // if no inputs run view automagically
-                    if (nextProps.inputs.length === 0) {
+                    if ((!!location.query.run) || nextProps.inputs.length === 0) {
                         setTimeout(() => { self.runView() });
                     }
                 }
