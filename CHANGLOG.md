@@ -1,6 +1,12 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## Unrelease Changes
+
+## Minor Changes
+
+- Uglify webpack build bundle on production builds. [#22](https://github.com/juttle/juttle-viewer/pull/22) 
+
 ## 0.1.2
 
 ### Bug Fixes

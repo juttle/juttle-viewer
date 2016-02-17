@@ -2,8 +2,9 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+var env = process.env.NODE_ENV;
+
+var config = {
     entry: {
         'app': './src/apps/index.js'
     },
@@ -15,7 +16,9 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('main.css'),
         new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(env)
+        })
     ],
     module: {
         loaders: [
@@ -49,3 +52,23 @@ module.exports = {
         ]
     }
 };
+
+if (env === 'production') {
+    config['devtool'] = 'source-map';
+    config.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                pure_getters: true,
+                unsafe: true,
+                unsafe_comps: true,
+                screw_ie8: true,
+                warnings: false
+            }
+        })
+    );
+} else {
+    config['devtool'] = 'cheap-module-eval-source-map';
+    config.plugins.push(new webpack.NoErrorsPlugin());
+}
+
+module.exports = config;
