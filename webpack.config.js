@@ -54,6 +54,7 @@ var config = {
 };
 
 if (env === 'production') {
+    config['devtool'] = 'source-map';
     config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
@@ -65,8 +66,7 @@ if (env === 'production') {
             }
         })
     );
-}
-else {
+} else {
     config['devtool'] = 'cheap-module-eval-source-map';
     config.plugins.push(new webpack.NoErrorsPlugin());
 }
