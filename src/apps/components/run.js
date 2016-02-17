@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 
-import * as actions from '../../actions';
+import * as actions from '../actions';
 
 import Juttle from 'juttle-client-library';
 import JuttleViewer from './juttle-viewer';
@@ -16,6 +16,10 @@ class RunApp extends React.Component {
         this.view = new client.View(this.refs.juttleViewLayout);
         this.inputs = new client.Input(this.refs.juttleInputsContainer);
         this.errors = new client.Errors(this.refs.errorView);
+
+        // subscribe to runtime errors
+        this.view.on('error', this.runtimeError.bind(this, 'error'));
+        this.view.on('warning', this.runtimeError.bind(this, 'warning'));
     }
 
     _onInputContainerKeyDown = (e) => {
@@ -47,6 +51,10 @@ class RunApp extends React.Component {
         }
     }
 
+    runtimeError = (type, err) => {
+        this.props.dispatch(actions.newError(err));
+    };
+
     runView = () => {
         let { dispatch } = this.props;
 
@@ -54,10 +62,7 @@ class RunApp extends React.Component {
         .then((values) => {
             return this.view.run(this.props.bundle, values);
         })
-        .then(jobEvents => {
-            jobEvents.on('error', (err) => { dispatch(actions.newError(err)) });
-            jobEvents.on('warning', (warning) => { dispatch(actions.newError(warning)) });
-        });
+        .catch(err => { dispatch(actions.newError(err)) });
     };
 
     handleRunClick = () => {
