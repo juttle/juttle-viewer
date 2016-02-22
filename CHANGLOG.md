@@ -1,7 +1,13 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
-## 0.1.3 
+## 0.1.4
+
+## Bug Fixes
+
+- Uglify safely to fix bug in duration input control not functioning properly. [#24](https://github.com/juttle/juttle-viewer/pull/24)
+
+## 0.1.3
 
 ## Minor Changes
 
