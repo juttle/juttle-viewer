@@ -11,7 +11,7 @@ This file documents all notable changes to juttle-client-library. The release nu
 
 ## Minor Changes
 
-- Uglify webpack build bundle on production builds. [#22](https://github.com/juttle/juttle-viewer/pull/22) 
+- Uglify webpack build bundle on production builds. [#22](https://github.com/juttle/juttle-viewer/pull/22)
 - Add support for improved error handling in juttle-client-library. [#22](https://github.com/juttle/juttle-viewer/pull/21)
 
 ## 0.1.2
