@@ -4,6 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistory } from 'react-router-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
 import reducers from './reducers';
 import observers from './observers';
@@ -20,7 +21,7 @@ import './assets/sass/main.scss';
 // setup redux
 let juttleServiceHost = window.JUTTLE_SERVICE_HOST || window.location.host;
 const reduxRouterMiddeware = syncHistory(browserHistory);
-const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddeware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddeware, thunk)(createStore);
 const store = createStoreWithMiddleware(reducers, { juttleServiceHost });
 observers(store);
 
