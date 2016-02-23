@@ -10,11 +10,17 @@ export function refetchPathBundle() {
         let { juttleServiceHost, runMode } = getState();
 
         if (runMode.path) {
+            let bundle;
             api.getBundle(juttleServiceHost, runMode.path)
-            .then((res) => {
+            .then(res => {
+                bundle = res.bundle;
+                return api.describe(juttleServiceHost, bundle);
+            })
+            .then(inputs => {
                 dispatch({
                     type: UPDATE_BUNDLE,
-                    bundle: res.bundle
+                    bundle,
+                    inputs
                 });
             })
             .catch((err) => {

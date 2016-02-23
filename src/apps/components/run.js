@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -29,8 +30,10 @@ class RunApp extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let self = this;
+        
         let newBundle = nextProps.bundleId !== this.props.bundleId;
         let bundleUpdated = newBundle || (nextProps.bundle !== this.props.bundle);
+        let inputDefsChanged = !_.isEqual(nextProps.inputs, this.props.inputs);
 
         // if no bundle clear everything
         if (!nextProps.bundle) {
@@ -39,7 +42,7 @@ class RunApp extends React.Component {
             return;
         }
 
-        if (newBundle) {
+        if (newBundle || inputDefsChanged) {
             this.inputs.clear();
             this.inputs.render(nextProps.bundle);
         }

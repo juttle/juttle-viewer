@@ -34,6 +34,7 @@ function bundleInfo(state = defaultBundleInfo, action) {
         case UPDATE_BUNDLE:
             return Object.assign({}, state, {
                 bundle: action.bundle,
+                inputs: action.inputs,
                 error: null
             });
         case NEW_BUNDLE:

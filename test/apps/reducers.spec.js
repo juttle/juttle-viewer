@@ -4,7 +4,7 @@ import reducers from '../../src/apps/reducers';
 import * as actions from '../../src/apps/actions';
 
 describe('reducers', () => {
-    describe('bundleInfo reducer', () => {
+    describe('bundleInfo', () => {
         const fakeBundle1 = { program: 'emit -limit 1', modules: [] };
         const fakeBundle2 = { program: 'emit -limit 1000', modules: [] };
 
@@ -23,14 +23,14 @@ describe('reducers', () => {
             const startBundleInfo = {
                 bundleId: 'test',
                 bundle: fakeBundle1,
-                inputs: {},
+                inputs: [],
                 error: 'i am angry'
             }
 
             const endBundleInfo = {
                 bundleId: 'test2',
                 bundle: fakeBundle2,
-                inputs: {},
+                inputs: [],
                 error: null
             }
 
@@ -46,18 +46,44 @@ describe('reducers', () => {
             const startBundleInfo = {
                 bundleId: 'test',
                 bundle: fakeBundle1,
-                inputs: {},
+                inputs: [],
                 error: 'i am angry'
             };
 
             expect(
                 reducers(
                     { bundleInfo: startBundleInfo },
-                    { type: actions.UPDATE_BUNDLE, bundle: fakeBundle2 }
+                    { type: actions.UPDATE_BUNDLE, bundle: fakeBundle2, inputs: [] }
                 ).bundleInfo
             ).to.deep.equal(Object.assign({}, startBundleInfo, {
                 bundle: fakeBundle2,
                 error: null
+            }));
+        });
+
+        it('updates inputs in UPDATE_BUNDLE event', () => {
+            const startBundleInfo = {
+                bundleId: 'test',
+                bundle: fakeBundle1,
+                inputs: [],
+                error: null
+            };
+
+            const fakeInputs = [{
+                id: 'test_input',
+                options: {},
+                static: true,
+                type: 'text'
+            }];
+
+            expect(
+                reducers(
+                    { bundleInfo: startBundleInfo },
+                    { type: actions.UPDATE_BUNDLE, bundle: fakeBundle2, inputs: fakeInputs }
+                ).bundleInfo
+            ).to.deep.equal(Object.assign({}, startBundleInfo, {
+                bundle: fakeBundle2,
+                inputs: fakeInputs
             }));
         });
     });
