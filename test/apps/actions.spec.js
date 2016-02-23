@@ -3,7 +3,7 @@ import nock from 'nock';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import * as actions from '../src/apps/actions';
+import * as actions from '../../src/apps/actions';
 
 const fakeHost = 'localhost:8080';
 const API_PREFIX = '/api/v0';

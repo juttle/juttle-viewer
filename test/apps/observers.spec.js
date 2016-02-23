@@ -1,11 +1,12 @@
 'use strict';
-import observers from '../src/apps/observers';
 import findFreePort from 'find-free-port';
 import nock from 'nock';
 import { Server as mockSocketServer, WebSocket } from 'mock-socket';
 import EventEmitter from 'eventemitter3';
 import { expect } from 'chai';
-import { NEW_BUNDLE } from '../src/apps/actions';
+
+import { NEW_BUNDLE } from '../../src/apps/actions';
+import observers from '../../src/apps/observers';
 
 const API_PREFIX = '/api/v0';
 
