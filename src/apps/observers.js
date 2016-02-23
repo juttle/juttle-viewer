@@ -10,10 +10,10 @@ function runMode(store) {
 
 
     function runModeChanged(runMode) {
-        function bundleReceived(bundle) {
+        function bundleReceived(bundleId, bundle) {
             return api.describe(juttleServiceHost, bundle)
             .then(inputs => {
-                store.dispatch(newBundle(bundle, inputs));
+                store.dispatch(newBundle(bundleId, bundle, inputs));
             })
             .catch(err => { store.dispatch(fetchBundleError(err)) })
         }
@@ -24,11 +24,11 @@ function runMode(store) {
 
         if (runMode.path) {
             api.getBundle(juttleServiceHost, runMode.path)
-            .then(res => bundleReceived(res.bundle))
+            .then(res => bundleReceived(runMode.path, res.bundle))
             .catch(err => { store.dispatch(fetchBundleError(err)) })
         } else if (runMode.rendezvous) {
             rendezvous = new RendezvousSocket(`ws://${juttleServiceHost}/rendezvous/${runMode.rendezvous}`);
-            rendezvous.on('message', msg => bundleReceived(msg.bundle));
+            rendezvous.on('message', msg => bundleReceived(msg.bundle_id, msg.bundle));
         }
     }
 
