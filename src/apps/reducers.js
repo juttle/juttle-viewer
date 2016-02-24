@@ -1,6 +1,6 @@
 import { UPDATE_LOCATION } from 'react-router-redux';
 import { combineReducers } from 'redux';
-import { NEW_BUNDLE, NEW_ERROR, FETCH_BUNDLE_ERROR } from './actions';
+import { NEW_BUNDLE, UPDATE_BUNDLE, NEW_ERROR, FETCH_BUNDLE_ERROR } from './actions';
 
 function runMode(state = { path: null, rendezvous: null }, action) {
     if (action.type === UPDATE_LOCATION) {
@@ -23,6 +23,7 @@ function runMode(state = { path: null, rendezvous: null }, action) {
 }
 
 const defaultBundleInfo = {
+    bundleId: null,
     bundle: null,
     inputs: null,
     error: null
@@ -30,8 +31,15 @@ const defaultBundleInfo = {
 
 function bundleInfo(state = defaultBundleInfo, action) {
     switch (action.type) {
+        case UPDATE_BUNDLE:
+            return Object.assign({}, state, {
+                bundle: action.bundle,
+                inputs: action.inputs,
+                error: null
+            });
         case NEW_BUNDLE:
             return {
+                bundleId: action.bundleId,
                 bundle: action.bundle,
                 inputs: action.inputs,
                 error: null
@@ -42,6 +50,7 @@ function bundleInfo(state = defaultBundleInfo, action) {
             });
         case FETCH_BUNDLE_ERROR:
             return {
+                bundleId: null,
                 bundle: null,
                 inputs: null,
                 error: action.error

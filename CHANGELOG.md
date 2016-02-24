@@ -1,6 +1,12 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## Unreleased Changes
+
+## Minor Changes
+
+- Refetch bundle on run button press (path mode only). [#31](https://github.com/juttle/juttle-viewer/pull/31)
+
 ## 0.1.4
 
 ## Bug Fixes
