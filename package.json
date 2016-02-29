@@ -1,6 +1,6 @@
 {
   "name": "juttle-viewer",
-  "version": "0.1.4",
+  "version": "0.2.0-rc.0",
   "description": "application to develop and execute juttle programs",
   "main": "src/router/index.js",
   "files": [
@@ -65,7 +65,7 @@
     "isomorphic-fetch": "^2.2.1",
     "isparta": "^4.0.0",
     "json-loader": "^0.5.4",
-    "juttle-client-library": "^0.5.0",
+    "juttle-client-library": "^0.6.0",
     "mock-socket": "^2.0.0",
     "nock": "^7.0.2",
     "node-sass": "^3.4.2",
