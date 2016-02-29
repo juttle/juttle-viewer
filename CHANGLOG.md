@@ -1,6 +1,12 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## 0.2.0
+
+## Major Changes
+
+- bump juttle-client-library to 0.6.0 [#36](https://github.com/juttle/juttle-viewer/pull/36)
+
 ## 0.1.4
 
 ## Bug Fixes
