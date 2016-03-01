@@ -1,3 +1,4 @@
+import Promise from 'bluebird';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -29,19 +30,35 @@ class RunApp extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let self = this;
-        if (nextProps.bundle !== this.props.bundle) {
-            this.inputs.clear();
+        let newBundle = nextProps.bundleId !== this.props.bundleId;
+        let bundleUpdated = newBundle || (nextProps.bundle !== this.props.bundle);
 
-            this.view.clear()
-            .then(() => {
-                if (nextProps.bundle) {
-                    this.inputs.render(nextProps.bundle);
-                    // if no inputs run view automagically
-                    if (nextProps.inputs.length === 0) {
-                        setTimeout(() => { self.runView() });
-                    }
+        // if no bundle clear everything
+        if (!nextProps.bundle) {
+            this.inputs.clear();
+            this.view.clear();
+            return ;
+        }
+
+        if (newBundle) {
+            this.inputs.clear();
+            this.inputs.render(nextProps.bundle);
+        }
+
+        if (bundleUpdated) {
+            Promise.all([
+                this.view.clear(),
+                this.inputs.getValues()
+            ])
+            .then(res => {
+                let inputValues = res[1];
+
+                // if not newBundle or  no inputs run view automagically
+                if (!newBundle || nextProps.inputs.length === 0) {
+                    return this.view.run(nextProps.bundle, inputValues);
                 }
             })
+            .catch(err => self.props.dispatch(actions.newError(err)));
         }
     }
 
@@ -89,6 +106,7 @@ class RunApp extends React.Component {
 function select(state) {
     return {
         error: state.bundleInfo.error,
+        bundleId: state.bundleInfo.bundleId,
         bundle: state.bundleInfo.bundle,
         inputs: state.bundleInfo.inputs,
         juttleServiceHost: state.juttleServiceHost
