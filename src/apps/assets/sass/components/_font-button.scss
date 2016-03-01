@@ -1,0 +1,23 @@
+.font-btn {
+    &.active {
+        .btn {
+            border-color: $brand-primary;
+            color: $brand-primary;
+        }
+
+        .font-btn-name {
+            color: $brand-primary;
+        }
+    }
+
+    .btn:hover {
+        color: $gray-lighter;
+    }
+
+    .font-btn-name {
+        margin-top: 2px;
+        text-align: center;
+        font-size: $font-size-small;
+        color: $gray-light;
+    }
+}

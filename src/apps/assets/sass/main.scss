@@ -3,7 +3,8 @@
 @import "./bootstrap";
 @import "./flexbox";
 @import "./juttle-client-library-overrides";
-@import "directory-listing";
+@import "./components/directory-listing";
+@import "./components/font-button";
 
 html, body, #app {
     height: 100%;
@@ -17,11 +18,12 @@ span.logo {
 
 }
 
-header {
-    border-bottom: 1px solid $gray-dark;
-    height: 60px;
-    padding: 0 15px;
+.menu-bar {
+    border-right: 1px solid $gray-dark;
+    padding: 10px;
     @include flexbox;
+
+
     .header-options {
         @include flexbox;
         @include align-items(center);
@@ -32,41 +34,94 @@ header {
     height: 100%;
     width: 100%;
     @include flexbox;
-    @include flex-direction(column);
+    @include flex-direction(row);
 }
 
 .app-main {
     width: 100%;
     height:100%;
+    overflow-x: hidden;
     @include flexbox;
+    @include flex-direction(column);
 }
 
-.main-view {
+.run-main {
     @include flex-grow(1);
-    overflow-x: hidden;
     margin: 15px;
 }
 
-.right-rail {
-    border-left: 1px solid $gray-dark;
-    width: 350px;
-    padding: 10px;
+.run-inputs {
     @include flex-shrink(0);
+    border-bottom: 1px solid $gray-dark;
+    padding: 10px;
+    padding-bottom: 0;
 }
 
-.juttle-source-toggle {
-    cursor: pointer;
+$run-menu-height: 65px;
 
-    &:hover {
-        text-decoration: none;
+.run-menu {
+    border-bottom: 1px solid $gray-dark;
+    height: $run-menu-height;
+    @include flex-shrink(0);
+    @include flexbox;
+    @include align-items(center);
+    padding: 0 20px;
+
+    .left-menu {
+        @include flex-grow(1);
+        @include align-items(center);
+        @include flexbox;
     }
+
+    .right-menu {
+        @include flex-shrink(0);
+    }
+
+    .run-btn {
+        margin-left: 20px;
+    }
+
+    .program-meta {
+        margin-left: 20px;
+        height: 100%;
+        padding: 10px;
+        padding-left: 0;
+
+        .bundle-id {
+            font-size: $font-size-large;
+        }
+
+        .run-mode .run-mode-title {
+            font-size: $font-size-small;
+            color: $gray-light;
+        }
+
+        .run-mode .run-mode-text {
+            font-size: $font-size-small;
+        }
+    }
+
+    .run-menu-toggles {
+        margin-left: 20px;
+    }
+}
+
+.run-menu-fullscreen {
+    position: fixed;
+    height: $run-menu-height;
+    z-index: 1000;
+    @include flexbox;
+    @include align-items(center);
+    padding: 0 20px;
+    right: 0;
 }
 
 .juttle-source {
     background-color: transparent;
     color: inherit;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid $gray-dark;
+    @include flex-shrink(0);
 }
 
 .dropdown-menu {

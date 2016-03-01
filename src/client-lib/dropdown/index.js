@@ -47,13 +47,16 @@ class Dropdown extends React.Component {
 
         return (
             <div className={btnGroupClasses}>
-                <button
-                    className="btn btn-default dropdown-toggle"
-                    onMouseDown={this._handleMouseDown}
-                    onTouchEnd={this._handleMouseDown}
-                    type="button">
-                    <i className="fa fa-lg fa-folder-o"></i>
-                </button>
+                <div className="font-btn">
+                    <button
+                        className="btn btn-default dropdown-toggle"
+                        onMouseDown={this._handleMouseDown}
+                        onTouchEnd={this._handleMouseDown}
+                        type="button">
+                        <i className="fa fa-lg fa-folder fa-fw"></i>
+                    </button>
+                    <div className="font-btn-name">path</div>
+                </div>
                 <div id="directory-listing" className="dropdown-menu">
                     {this.props.children}
                 </div>
