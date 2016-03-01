@@ -26,6 +26,15 @@
     }
 }
 
+.juttle-client-library.inputs-view {
+    @include flexbox;
+    @include flex-wrap(wrap);
+    & > div {
+        min-width: 250px;
+        margin-right: 20px;
+    }
+}
+
 .datepicker,
 .datepicker__input,
 .datepicker__input:focus,
