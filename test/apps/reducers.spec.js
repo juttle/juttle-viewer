@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import reducers from '../src/apps/reducers';
-import * as actions from '../src/apps/actions';
+import reducers from '../../src/apps/reducers';
+import * as actions from '../../src/apps/actions';
 
 describe('reducers', () => {
     describe('bundleInfo reducer', () => {
