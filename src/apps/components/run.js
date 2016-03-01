@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'underscore';
 
 import * as actions from '../actions';
 
 import Juttle from 'juttle-client-library';
 import JuttleViewer from './juttle-viewer';
+import ErrorView from './error-view';
 
 const ENTER_KEY = 13;
 
@@ -15,7 +15,6 @@ class RunApp extends React.Component {
         let client = new Juttle(this.props.juttleServiceHost);
         this.view = new client.View(this.refs.juttleViewLayout);
         this.inputs = new client.Input(this.refs.juttleInputsContainer);
-        this.errors = new client.Errors(this.refs.errorView);
 
         // subscribe to runtime errors
         this.view.on('error', this.runtimeError.bind(this, 'error'));
@@ -31,7 +30,6 @@ class RunApp extends React.Component {
     componentWillReceiveProps(nextProps) {
         let self = this;
         if (nextProps.bundle !== this.props.bundle) {
-            this.errors.clear();
             this.inputs.clear();
 
             this.view.clear()
@@ -44,10 +42,6 @@ class RunApp extends React.Component {
                     }
                 }
             })
-        }
-
-        if (nextProps.error && !_.isEqual(nextProps.error, this.props.error)) {
-            this.errors.render(nextProps.error);
         }
     }
 
@@ -76,7 +70,7 @@ class RunApp extends React.Component {
                     <JuttleViewer bundle={this.props.bundle} />
                     <div ref="juttleSource"></div>
                     <div ref="juttleViewLayout"></div>
-                    <div ref="errorView"></div>
+                    <ErrorView error={this.props.error} />
                 </div>
                 <div className="right-rail">
                     <div ref="juttleInputsContainer" onKeyDown={this._onInputContainerKeyDown}></div>
