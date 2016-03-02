@@ -1,10 +1,9 @@
 import React from 'react';
-import Juttle from 'juttle-client-library';
+import { Errors } from 'juttle-client-library';
 
 export default class ErrorView extends React.Component {
     componentDidMount() {
-        let client = new Juttle(this.props.juttleServiceHost);
-        this.error = new client.Errors(this.refs.errorDiv);
+        this.error = new Errors(this.refs.errorDiv);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -21,4 +20,3 @@ export default class ErrorView extends React.Component {
         );
     }
 }
-
