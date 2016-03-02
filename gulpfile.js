@@ -42,10 +42,10 @@ gulp.task('test', function() {
 gulp.task('test-coverage', ['instrument'], function() {
     var coverage = {
         global: {
-            statements: 84,
-            branches: 80,
-            functions: 82,
-            lines: 82
+            statements: 87,
+            branches: 87,
+            functions: 85,
+            lines: 62
         }
     };
 
