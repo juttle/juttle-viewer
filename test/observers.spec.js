@@ -1,4 +1,5 @@
 'use strict';
+import Promise from 'bluebird';
 import observers from '../src/apps/observers';
 import findFreePort from 'find-free-port';
 import nock from 'nock';
@@ -57,7 +58,7 @@ describe('bundleMiddleware', () => {
         nock.cleanAll();
     })
 
-    it('properly fetches bundle from null runMode', (done) => {
+    it('properly fetches bundle from null runMode', () => {
         const fakeJuttle1 = {
             program: 'emit -limit 101',
             modules: []
@@ -77,26 +78,31 @@ describe('bundleMiddleware', () => {
             runMode: { path: null, rendezvous: null }
         });
 
-        store.event.once(NEW_BUNDLE, (action) => {
+        return new Promise((resolve, reject) => {
+            store.event.once(NEW_BUNDLE, (action) => {
+                resolve(action);
+            });
+
+            store.updateState({
+                runMode: {
+                    path: '/fake1.juttle',
+                    rendezvous: null
+                }
+            });
+        })
+        .then(action => {
             expect(action).to.deep.equal({
                 type: NEW_BUNDLE,
+                bundleId: '/fake1.juttle',
                 bundle: fakeJuttle1,
                 inputs: []
             });
+        })
 
-            done();
-        });
-
-        store.updateState({
-            runMode: {
-                path: '/fake1.juttle',
-                rendezvous: null
-            }
-        });
 
     });
 
-    it('fetches bundle from path set runMode', (done) => {
+    it('fetches bundle from path set runMode', () => {
         const fakeJuttle2 = {
             program: 'emit -limit 102',
             modules: []
@@ -120,26 +126,29 @@ describe('bundleMiddleware', () => {
             }
         });
 
+        return new Promise(resolve => {
+            store.event.once(NEW_BUNDLE, (action) => {
+                resolve(action);
+            });
 
-        store.event.once(NEW_BUNDLE, (action) => {
+            store.updateState({
+                runMode: {
+                    path: '/fake2.juttle',
+                    rendezvous: null
+                }
+            });
+        })
+        .then(action => {
             expect(action).to.deep.equal({
                 type: NEW_BUNDLE,
+                bundleId: '/fake2.juttle',
                 bundle: fakeJuttle2,
                 inputs: []
             });
-
-            done();
-        });
-
-        store.updateState({
-            runMode: {
-                path: '/fake2.juttle',
-                rendezvous: null
-            }
         });
     });
 
-    it('receives bundle for rendezvous runMode', (done) => {
+    it('receives bundle for rendezvous runMode', () => {
         const rendezJuttle = {
             program: 'emit -limit 9000',
             modules: []
@@ -163,26 +172,31 @@ describe('bundleMiddleware', () => {
             }
         });
 
-        store.event.once(NEW_BUNDLE, (action) => {
+        return new Promise(resolve => {
+            store.event.once(NEW_BUNDLE, (action) => {
+                resolve(action);
+            });
+
+            store.updateState({
+                runMode: {
+                    path: null,
+                    rendezvous: 'test'
+                }
+            });
+
+            mockServer.send(JSON.stringify({
+                bundle_id: 'test.juttle',
+                bundle: rendezJuttle
+            }));
+        })
+        .then(action => {
             expect(action).to.deep.equal({
                 type: NEW_BUNDLE,
+                bundleId: 'test.juttle',
                 bundle: rendezJuttle,
                 inputs: []
             });
-
-            done();
         });
-
-        store.updateState({
-            runMode: {
-                path: null,
-                rendezvous: 'test'
-            }
-        });
-
-        mockServer.send(JSON.stringify({
-            bundle: rendezJuttle
-        }));
     });
 
 });

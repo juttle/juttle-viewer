@@ -23,6 +23,7 @@ function runMode(state = { path: null, rendezvous: null }, action) {
 }
 
 const defaultBundleInfo = {
+    bundleId: null,
     bundle: null,
     inputs: null,
     error: null
@@ -32,6 +33,7 @@ function bundleInfo(state = defaultBundleInfo, action) {
     switch (action.type) {
         case NEW_BUNDLE:
             return {
+                bundleId: action.bundleId,
                 bundle: action.bundle,
                 inputs: action.inputs,
                 error: null
@@ -42,6 +44,7 @@ function bundleInfo(state = defaultBundleInfo, action) {
             });
         case FETCH_BUNDLE_ERROR:
             return {
+                bundleId: action.bundleId,
                 bundle: null,
                 inputs: null,
                 error: action.error

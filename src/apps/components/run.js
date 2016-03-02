@@ -1,11 +1,12 @@
+import Promise from 'bluebird';
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'underscore';
 
 import * as actions from '../actions';
 
 import Juttle from 'juttle-client-library';
 import JuttleViewer from './juttle-viewer';
+import ErrorView from './error-view';
 
 const ENTER_KEY = 13;
 
@@ -15,7 +16,6 @@ class RunApp extends React.Component {
         let client = new Juttle(this.props.juttleServiceHost);
         this.view = new client.View(this.refs.juttleViewLayout);
         this.inputs = new client.Input(this.refs.juttleInputsContainer);
-        this.errors = new client.Errors(this.refs.errorView);
 
         // subscribe to runtime errors
         this.view.on('error', this.runtimeError.bind(this, 'error'));
@@ -30,24 +30,35 @@ class RunApp extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let self = this;
-        if (nextProps.bundle !== this.props.bundle) {
-            this.errors.clear();
-            this.inputs.clear();
+        let newBundle = nextProps.bundleId !== this.props.bundleId;
+        let bundleUpdated = newBundle || (nextProps.bundle !== this.props.bundle);
 
-            this.view.clear()
-            .then(() => {
-                if (nextProps.bundle) {
-                    this.inputs.render(nextProps.bundle);
-                    // if no inputs run view automagically
-                    if (nextProps.inputs.length === 0) {
-                        setTimeout(() => { self.runView() });
-                    }
-                }
-            })
+        // if no bundle clear everything
+        if (!nextProps.bundle) {
+            this.inputs.clear();
+            this.view.clear();
+            return ;
         }
 
-        if (nextProps.error && !_.isEqual(nextProps.error, this.props.error)) {
-            this.errors.render(nextProps.error);
+        if (newBundle) {
+            this.inputs.clear();
+            this.inputs.render(nextProps.bundle);
+        }
+
+        if (bundleUpdated) {
+            Promise.all([
+                this.view.clear(),
+                this.inputs.getValues()
+            ])
+            .then(res => {
+                let inputValues = res[1];
+
+                // if not newBundle or  no inputs run view automagically
+                if (!newBundle || nextProps.inputs.length === 0) {
+                    return this.view.run(nextProps.bundle, inputValues);
+                }
+            })
+            .catch(err => self.props.dispatch(actions.newError(err)));
         }
     }
 
@@ -76,7 +87,7 @@ class RunApp extends React.Component {
                     <JuttleViewer bundle={this.props.bundle} />
                     <div ref="juttleSource"></div>
                     <div ref="juttleViewLayout"></div>
-                    <div ref="errorView"></div>
+                    <ErrorView error={this.props.error} />
                 </div>
                 <div className="right-rail">
                     <div ref="juttleInputsContainer" onKeyDown={this._onInputContainerKeyDown}></div>
@@ -95,6 +106,7 @@ class RunApp extends React.Component {
 function select(state) {
     return {
         error: state.bundleInfo.error,
+        bundleId: state.bundleInfo.bundleId,
         bundle: state.bundleInfo.bundle,
         inputs: state.bundleInfo.inputs,
         juttleServiceHost: state.juttleServiceHost
