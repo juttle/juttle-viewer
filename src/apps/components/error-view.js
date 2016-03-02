@@ -1,8 +1,6 @@
 import React from 'react';
 import { Errors } from 'juttle-client-library';
 
-console.log('errors', Errors);
-
 export default class ErrorView extends React.Component {
     componentDidMount() {
         this.error = new Errors(this.refs.errorDiv);

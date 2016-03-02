@@ -28,6 +28,7 @@ function gulp_test() {
         log: true,
         timeout: 30000,
         reporter: 'spec',
+        require: ['./test/setup.js'],
         ui: 'bdd',
         ignoreLeaks: true,
         globals: ['should']
