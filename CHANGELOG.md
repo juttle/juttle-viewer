@@ -1,6 +1,12 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## Unreleased Changes
+
+## Major Changes
+
+- Reorganization of juttle-viewer layout: [#40](https://github.com/juttle/juttle-viewer/pull/40)
+
 ## 0.2.0
 
 ## Major Changes
