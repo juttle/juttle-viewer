@@ -1,5 +1,15 @@
 {
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+    },
     "env": {
         "mocha": true
-    }
+    },
+    "rules": {
+        "react/jsx-uses-react": 1
+    },
+    "plugins": [
+        "react"
+    ]
 }
