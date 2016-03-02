@@ -1,12 +1,12 @@
 'use strict';
 import Promise from 'bluebird';
-import observers from '../src/apps/observers';
+import observers from '../../src/apps/observers';
 import findFreePort from 'find-free-port';
 import nock from 'nock';
 import { Server as mockSocketServer, WebSocket } from 'mock-socket';
 import EventEmitter from 'eventemitter3';
 import { expect } from 'chai';
-import { NEW_BUNDLE } from '../src/apps/actions';
+import { NEW_BUNDLE } from '../../src/apps/actions';
 
 const API_PREFIX = '/api/v0';
 

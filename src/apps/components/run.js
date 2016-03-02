@@ -4,29 +4,21 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions';
 
-import Juttle from 'juttle-client-library';
-import JuttleViewer from './juttle-viewer';
+import { Views, Inputs } from 'juttle-client-library';
 import ErrorView from './error-view';
+import RunHeader from './run-header';
 
-const ENTER_KEY = 13;
-
-class RunApp extends React.Component {
+// export here to allow for unit test on component itself
+export class RunApp extends React.Component {
     componentDidMount() {
         // construct client plus views and inputs
-        let client = new Juttle(this.props.juttleServiceHost);
-        this.view = new client.View(this.refs.juttleViewLayout);
-        this.inputs = new client.Input(this.refs.juttleInputsContainer);
+        this.view = new Views(this.props.juttleServiceHost, this.refs.juttleViewLayout);
+        this.inputs = new Inputs(this.props.juttleServiceHost, this.refs.runHeader.getInputsEl());
 
         // subscribe to runtime errors
         this.view.on('error', this.runtimeError.bind(this, 'error'));
         this.view.on('warning', this.runtimeError.bind(this, 'warning'));
     }
-
-    _onInputContainerKeyDown = (e) => {
-        if (e.keyCode === ENTER_KEY) {
-            this.runView();
-        }
-    };
 
     componentWillReceiveProps(nextProps) {
         let self = this;
@@ -83,20 +75,11 @@ class RunApp extends React.Component {
     render() {
         return (
             <div className="app-main">
-                <div className="main-view">
-                    <JuttleViewer bundle={this.props.bundle} />
+                <RunHeader {...this.props} onRunClick={this.handleRunClick} ref="runHeader" />
+                <div className="run-main">
                     <div ref="juttleSource"></div>
                     <div ref="juttleViewLayout"></div>
                     <ErrorView error={this.props.error} />
-                </div>
-                <div className="right-rail">
-                    <div ref="juttleInputsContainer" onKeyDown={this._onInputContainerKeyDown}></div>
-                    <button
-                        onClick={this.handleRunClick}
-                        disabled={!this.props.bundle}
-                        className="btn btn-primary">
-                        Run
-                    </button>
                 </div>
             </div>
         );
@@ -105,6 +88,7 @@ class RunApp extends React.Component {
 
 function select(state) {
     return {
+        runMode: state.runMode,
         error: state.bundleInfo.error,
         bundleId: state.bundleInfo.bundleId,
         bundle: state.bundleInfo.bundle,
