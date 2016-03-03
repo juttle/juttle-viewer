@@ -75,7 +75,7 @@ class RunHeader extends React.Component {
                     className="run-btn btn btn-default">
                     <i className="fa fa-play fa-fw"></i>
                 </button>
-                <button className="btn btn-default" onClick={this._toggleFullscreen}>
+                <button className="btn btn-default" ref="btnHideFullscreen" onClick={this._toggleFullscreen}>
                     <i className="fa fa-compress fa-fw"></i>
                 </button>
             </div>
@@ -134,7 +134,7 @@ class RunHeader extends React.Component {
                     <div className="right-menu">
                         <div className="fullscreen">
                             <div className="font-btn">
-                                <button className="btn btn-default" onClick={this.toggleFullscreen}>
+                                <button className="btn btn-default" ref="btnShowFullscreen" onClick={this._toggleFullscreen}>
                                     <i className="fa fa-lg fa-expand fa-fw"></i>
                                 </button>
                                 <div className="font-btn-name">expand</div>
