@@ -27,4 +27,18 @@ describe('run-header', () => {
 
         expect(clickStub).to.have.been.called;
     });
+
+    it('toggles fullscreen on expand/collpase click', () => {
+        const props = {
+            runMode: { path: 'test', rendezvous: null }
+        };
+
+        let el = ReactTestUtils.renderIntoDocument(<RunHeader {...props} />);
+
+        expect(el.state.fullscreen).to.equal(false);
+        ReactTestUtils.Simulate.click(el.refs.btnShowFullscreen);
+        expect(el.state.fullscreen).to.equal(true);
+        ReactTestUtils.Simulate.click(el.refs.btnHideFullscreen);
+        expect(el.state.fullscreen).to.equal(false);
+    });
 });
