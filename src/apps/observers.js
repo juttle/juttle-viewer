@@ -1,5 +1,5 @@
 import observeStore from '../client-lib/observe-store';
-import { newBundle, fetchBundleError } from './actions';
+import { promulgateBundle } from './actions';
 import * as api from '../client-lib/api';
 import RendezvousSocket from '../client-lib/rendezvous-socket';
 
@@ -11,11 +11,7 @@ function runMode(store) {
 
     function runModeChanged(runMode) {
         function bundleReceived(bundleId, bundle) {
-            return api.describe(juttleServiceHost, bundle)
-            .then(inputs => {
-                store.dispatch(newBundle(bundleId, bundle, inputs));
-            })
-            .catch(err => { store.dispatch(fetchBundleError(bundleId, err)) })
+            return promulgateBundle(bundle, bundleId, juttleServiceHost, store.dispatch.bind(store));
         }
 
         if (rendezvous) {
@@ -24,8 +20,7 @@ function runMode(store) {
 
         if (runMode.path) {
             api.getBundle(juttleServiceHost, runMode.path)
-            .then(res => bundleReceived(runMode.path, res.bundle))
-            .catch(err => { store.dispatch(fetchBundleError(runMode.path, err)) })
+            .then(res => bundleReceived(runMode.path, res.bundle));
         } else if (runMode.rendezvous) {
             rendezvous = new RendezvousSocket(`ws://${juttleServiceHost}/rendezvous/${runMode.rendezvous}`);
             rendezvous.on('message', msg => bundleReceived(msg.bundle_id, msg.bundle));

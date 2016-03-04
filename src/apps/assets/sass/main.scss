@@ -6,6 +6,7 @@
 @import "./juttle-client-library-overrides";
 @import "./components/directory-listing";
 @import "./components/font-button";
+@import "./editor";
 @import "./components/log-explorer";
 
 body, #app {
@@ -80,7 +81,6 @@ $run-menu-height: 65px;
     }
 
     .run-menu-toggles {
-        margin-left: 20px;
     }
 }
 
@@ -106,10 +106,11 @@ $run-menu-height: 65px;
 
 .juttle-source {
     background-color: transparent;
-    color: inherit;
-    padding: 10px;
     border-bottom: 1px solid $gray-dark;
-    @include flex-shrink(0);
+}
+
+.juttle-editor {
+    position: relative;
 }
 
 .dropdown-menu {

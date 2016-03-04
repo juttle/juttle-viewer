@@ -45,8 +45,8 @@ function bundleInfo(state = defaultBundleInfo, action) {
         case FETCH_BUNDLE_ERROR:
             return {
                 bundleId: action.bundleId,
-                bundle: null,
-                inputs: null,
+                bundle: action.bundle,
+                inputs: state.inputs || [],
                 error: action.error
             };
         default:

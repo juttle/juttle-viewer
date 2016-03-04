@@ -5,6 +5,8 @@ import { ViewStatus } from 'juttle-client-library';
 import DirectoryListing from '../../client-lib/directory-listing';
 import Dropdown from '../../client-lib/dropdown';
 import JuttleViewer from './juttle-viewer';
+import { promulgateBundle } from '../actions';
+import { LOCAL_BUNDLE_ID } from '../constants';
 import RunButton from './run-button';
 import RunHeaderFullscreen from './run-header-fullscreen';
 import LogExplorer from './log-explorer/log-explorer'
@@ -14,13 +16,21 @@ const ENTER_KEY = 13;
 class RunHeader extends React.Component {
     constructor() {
         super();
-
         this.state = {
             showJuttle: false,
             fullscreen: false,
             fullscreenMenu: false,
             showDebug: false
         };
+    }
+
+    componentDidMount() {
+        let localProgram = localStorage.getItem('program');
+        if (localProgram) {
+            let { juttleServiceHost, dispatch } = this.props;
+            let bundle = {program: localProgram};
+            promulgateBundle(bundle, LOCAL_BUNDLE_ID, juttleServiceHost, dispatch);
+        }
     }
 
     // called by parent
@@ -67,6 +77,7 @@ class RunHeader extends React.Component {
                     <i className="fa fa-lg fa-fw fa-medkit"></i>
                     <div className="font-btn-name">debug</div>
                 </button>
+                <div className="font-btn-name">code</div>
             </div>
         );
     }
@@ -76,18 +87,18 @@ class RunHeader extends React.Component {
             fullscreen: !this.state.fullscreen
         });
     };
-    
+
     _toggleShowDebug = () => {
         this.setState({
             showDebug: !this.state.showDebug
         });
     };
-    
+
     _run = () => {
         var options = {
             debug: this.state.showDebug
         };
-        
+
         this.props.handleRun(options);
     }
 
@@ -102,11 +113,15 @@ class RunHeader extends React.Component {
             'display': this.state.fullscreen ? 'none' : ''
         };
 
+<<<<<<< HEAD
         let juttleViewer = this.props.bundle && this.state.showJuttle ? <JuttleViewer bundle={this.props.bundle} /> : false;
-        
+
         let debugStyle = {
             'display': this.state.showDebug ? 'block' : 'none'
         };
+=======
+        let juttleViewer = this.state.showJuttle ? <JuttleViewer {...this.props} /> : false;
+>>>>>>> d51a718... Add `edit` button to code viewer
 
         let runModeText = 'Not Set';
         if (this.props.runMode.path || this.props.runMode.rendezvous) {

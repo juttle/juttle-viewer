@@ -52,8 +52,8 @@ describe('reducers', () => {
 
             const endBundleInfo = {
                 bundleId: 'test',
-                bundle: null,
-                inputs: null,
+                bundle: fakeBundle1,
+                inputs: {},
                 error: {
                     code: 'TEST-ERROR',
                     message: 'there was an error',
@@ -64,7 +64,7 @@ describe('reducers', () => {
             expect(
                 reducers(
                     { bundleInfo: startBundleInfo },
-                    actions.fetchBundleError('test', endBundleInfo.error)
+                    actions.fetchBundleError('test', endBundleInfo.error, fakeBundle1)
                 ).bundleInfo
             ).to.deep.equal(endBundleInfo);
         });

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import { Views, ViewStatus, Inputs } from 'juttle-client-library';
+import { LOCAL_BUNDLE_ID } from '../constants';
 import ErrorView from './error-view';
 import RunHeader from './run-header';
 
@@ -54,6 +55,7 @@ export class RunApp extends React.Component {
     componentWillReceiveProps(nextProps) {
         let self = this;
         let newBundle = nextProps.bundleId !== this.props.bundleId;
+        let isLocal = nextProps.bundleId === LOCAL_BUNDLE_ID;
         let bundleUpdated = newBundle || (nextProps.bundle !== this.props.bundle);
 
         // if no bundle clear everything
@@ -63,7 +65,8 @@ export class RunApp extends React.Component {
             return ;
         }
 
-        if (newBundle) {
+        let hasInputs = nextProps.inputs && nextProps.inputs.length > 0;
+        if (newBundle || (isLocal && hasInputs)) {
             this.inputs.clear();
             this.inputs.render(nextProps.bundle);
         }
@@ -76,8 +79,7 @@ export class RunApp extends React.Component {
             .then(res => {
                 let inputValues = res[1];
 
-                // if not newBundle or  no inputs run view automagically
-                if (!newBundle || nextProps.inputs.length === 0) {
+                if ((!newBundle || nextProps.inputs.length === 0) && !isLocal) {
                     return this.view.run(nextProps.bundle, inputValues);
                 }
             })
