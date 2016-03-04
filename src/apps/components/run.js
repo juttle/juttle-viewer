@@ -23,6 +23,7 @@ export class RunApp extends React.Component {
     componentWillReceiveProps(nextProps) {
         let self = this;
         let newBundle = nextProps.bundleId !== this.props.bundleId;
+        let isLocal = nextProps.bundleId === 'local';
         let bundleUpdated = newBundle || (nextProps.bundle !== this.props.bundle);
 
         // if no bundle clear everything
@@ -45,8 +46,7 @@ export class RunApp extends React.Component {
             .then(res => {
                 let inputValues = res[1];
 
-                // if not newBundle or  no inputs run view automagically
-                if (!newBundle || nextProps.inputs.length === 0) {
+                if ((!newBundle || nextProps.inputs.length === 0) && !isLocal) {
                     return this.view.run(nextProps.bundle, inputValues);
                 }
             })
