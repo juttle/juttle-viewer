@@ -21,8 +21,8 @@ let argv = require('yargs')
         default: 'localhost:2000'
     })
     .option('d', {
-        alias: 'dist',
-        describe: 'Run in dist (production) mode',
+        alias: 'dev',
+        describe: 'Run in development mode',
         boolean: true,
         default: false
     })
@@ -32,15 +32,17 @@ let argv = require('yargs')
 
 let port = argv.p;
 let juttleServiceHost = argv.j;
-let isProduction  = argv.d;
+let isDevelopment  = argv.d;
 let app = express();
 let assetPath = webpackConfig.output.publicPath;
 let compiler = webpack(webpackConfig);
 
-if (isProduction) {
+if (!isDevelopment) {
     app.use(appRouter({juttleServiceHost: juttleServiceHost}));
 
 } else {
+    console.log('running in development mode');
+
     // override router
     app.use(webpackDevMiddleware(compiler, {
         noInfo: true,
