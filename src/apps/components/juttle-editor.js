@@ -1,10 +1,10 @@
 import React from 'react';
 
-import brace from 'brace';
 import AceEditor from 'react-ace';
 import { newBundle } from '../actions';
 
 import 'brace/theme/monokai';
+import './juttle-mode/mode';
 
 class JuttleEditor extends React.Component {
     onChange(newValue) {
@@ -16,6 +16,7 @@ class JuttleEditor extends React.Component {
             <AceEditor
               theme="monokai"
               height="100"
+              mode="juttle"
               onChange={this.onChange.bind(this)}
               value={this.props.bundle.program}
             />
