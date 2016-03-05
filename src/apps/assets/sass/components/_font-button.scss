@@ -1,15 +1,4 @@
 .font-btn {
-    &.active {
-        .btn {
-            border-color: $brand-primary;
-            color: $brand-primary;
-        }
-
-        .font-btn-name {
-            color: $brand-primary;
-        }
-    }
-
     .btn:hover {
         color: $gray-lighter;
     }
@@ -19,5 +8,29 @@
         text-align: center;
         font-size: $font-size-small;
         color: $gray-light;
+    }
+}
+
+.btn-code {
+    $hover: lighten($brand-primary, 10%);
+    &:hover.active {
+        color: $hover;
+        border-color: $hover;
+    }
+    &.active {
+        color: $brand-primary;
+        border-color: $brand-primary;
+    }
+}
+
+.btn-run {
+    $hover: lighten($brand-warning, 10%);
+    &:hover.starting, &:hover.running {
+        color: $hover;
+        border-color: $hover;
+    }
+    &.starting, &.running {
+        color: $brand-warning;
+        border-color: $brand-warning;
     }
 }

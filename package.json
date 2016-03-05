@@ -67,7 +67,7 @@
     "isparta": "^4.0.0",
     "jsdom": "^8.1.0",
     "json-loader": "^0.5.4",
-    "juttle-client-library": "^0.7.0-rc.1",
+    "juttle-client-library": "^0.7.0-rc.5",
     "mock-socket": "^2.0.0",
     "nock": "^7.0.2",
     "node-sass": "^3.4.2",
