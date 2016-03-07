@@ -1,0 +1,25 @@
+.log-explorer {
+    font-family: monospace;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 1px solid $gray-dark;
+    padding: 10px;
+
+    .line-counts {
+        text-align: left;
+    }
+    .loglines {
+        overflow-x: auto;
+        margin-bottom: 10px;
+    }
+}
+
+.log-line {
+    .match {
+        background-color: #D87118;
+    }
+
+    .cursor-line {
+        background-color: #4E8DB8;
+    }
+}

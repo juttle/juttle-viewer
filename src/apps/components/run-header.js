@@ -7,7 +7,7 @@ import Dropdown from '../../client-lib/dropdown';
 import JuttleViewer from './juttle-viewer';
 import RunButton from './run-button';
 import RunHeaderFullscreen from './run-header-fullscreen';
-
+import LogExplorer from './log-explorer/log-explorer'
 
 const ENTER_KEY = 13;
 
@@ -18,7 +18,8 @@ class RunHeader extends React.Component {
         this.state = {
             showJuttle: false,
             fullscreen: false,
-            fullscreenMenu: false
+            fullscreenMenu: false,
+            showDebug: false
         };
     }
 
@@ -44,18 +45,28 @@ class RunHeader extends React.Component {
     };
 
     _renderToggles() {
-        let codeClasses = classnames('btn', 'btn-default', 'btn-code', {
+        let showJuttleClasses = classnames('btn', 'btn-default', 'btn-code', {
             'active': this.state.showJuttle
+        });
+        let showDebugClasses = classnames('btn', 'btn-default', 'btn-code', {
+            'active': this.state.showDebug
         });
 
         return (
-            <div className="font-btn">
+            <div className="btn-group run-menu-toggles">
                 <button
                     onClick={this._toggleShowJuttle}
-                    className={codeClasses}>
+                    className={showJuttleClasses}>
                     <i className="fa fa-lg fa-fw fa-code"></i>
+                    <div className="font-btn-name">view</div>
                 </button>
-                <div className="font-btn-name">view</div>
+                <button
+                    onClick={this._toggleShowDebug}
+                    ref="btnShowDebug"
+                    className={showDebugClasses}>
+                    <i className="fa fa-lg fa-fw fa-medkit"></i>
+                    <div className="font-btn-name">debug</div>
+                </button>
             </div>
         );
     }
@@ -65,6 +76,20 @@ class RunHeader extends React.Component {
             fullscreen: !this.state.fullscreen
         });
     };
+    
+    _toggleShowDebug = () => {
+        this.setState({
+            showDebug: !this.state.showDebug
+        });
+    };
+    
+    _run = () => {
+        var options = {
+            debug: this.state.showDebug
+        };
+        
+        this.props.handleRun(options);
+    }
 
     render() {
         let menuStyle = {
@@ -78,6 +103,10 @@ class RunHeader extends React.Component {
         };
 
         let juttleViewer = this.props.bundle && this.state.showJuttle ? <JuttleViewer bundle={this.props.bundle} /> : false;
+        
+        let debugStyle = {
+            'display': this.state.showDebug ? 'block' : 'none'
+        };
 
         let runModeText = 'Not Set';
         if (this.props.runMode.path || this.props.runMode.rendezvous) {
@@ -92,7 +121,7 @@ class RunHeader extends React.Component {
                 runState={this.props.runState}
                 bundle={this.props.bundle}
                 toggleFullscreen={this._toggleFullscreen}
-                onRunClick={this.props.onRunClick} />
+                onRunClick={this._run} />
         );
 
         return (
@@ -109,13 +138,11 @@ class RunHeader extends React.Component {
                             <RunButton
                                 runState={this.props.runState}
                                 bundle={this.props.bundle}
-                                onClick={this.props.onRunClick}
+                                onClick={this._run}
+                                runButtonText={runButtonText}
                                 disabled={!this.props.bundle} />
-                            <div className="font-btn-name">{runButtonText}</div>
                         </div>
-                        <div className="run-menu-toggles">
-                            { this._renderToggles() }
-                        </div>
+                        { this._renderToggles() }
                         <div className="program-meta">
                             <div className="bundle-id">{this.props.bundleId}</div>
                             <div className="run-mode">
@@ -138,6 +165,9 @@ class RunHeader extends React.Component {
                 </div>
                 <div className="program-options" style={programOptionsStyle}>
                     { juttleViewer }
+                    <div ref="divLogExplorer" style={debugStyle}>
+                        <LogExplorer logLines={this.props.logLines} />
+                    </div>
                     <div style={inputsStyle} className="run-inputs">
                         <div ref="juttleInputsContainer" onKeyDown={this._onInputContainerKeyDown}></div>
                     </div>
@@ -148,7 +178,7 @@ class RunHeader extends React.Component {
 }
 
 RunHeader.PropTypes = {
-    onRunClick: React.PropTypes.func.required
+    handleRun: React.PropTypes.func.required
 };
 
 export default RunHeader;
