@@ -4,12 +4,20 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions';
 
-import { Views, Inputs } from 'juttle-client-library';
+import { Views, ViewStatus, Inputs } from 'juttle-client-library';
 import ErrorView from './error-view';
 import RunHeader from './run-header';
 
 // export here to allow for unit test on component itself
 export class RunApp extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            runState: null
+        };
+    }
+
     componentDidMount() {
         // construct client plus views and inputs
         this.view = new Views(this.props.juttleServiceHost, this.refs.juttleViewLayout);
@@ -18,7 +26,18 @@ export class RunApp extends React.Component {
         // subscribe to runtime errors
         this.view.on('error', this.runtimeError.bind(this, 'error'));
         this.view.on('warning', this.runtimeError.bind(this, 'warning'));
+        this.view.on('view-status', this._viewStatusChange);
+
+        this.setState({
+            runState: this.view.getStatus()
+        });
     }
+
+    _viewStatusChange = (status) => {
+        this.setState({
+            runState: status
+        });
+    };
 
     componentWillReceiveProps(nextProps) {
         let self = this;
@@ -69,13 +88,20 @@ export class RunApp extends React.Component {
     };
 
     handleRunClick = () => {
-        this.runView();
+        if (this.state.runState === ViewStatus.STOPPED) {
+            this.runView();
+        } else {
+            this.view.stop();
+        }
     };
 
     render() {
         return (
             <div className="app-main">
-                <RunHeader {...this.props} onRunClick={this.handleRunClick} ref="runHeader" />
+                <RunHeader {...this.props}
+                    runState={this.state.runState}
+                    onRunClick={this.handleRunClick}
+                    ref="runHeader" />
                 <div className="run-main">
                     <div ref="juttleSource"></div>
                     <div ref="juttleViewLayout"></div>

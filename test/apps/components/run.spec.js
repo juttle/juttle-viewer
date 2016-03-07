@@ -74,18 +74,24 @@ describe('run app', () => {
 
             // overriding constructor wipes all functions, create stub for on subscriptions
             let viewOnStub = sandbox.stub();
+            let viewGetStatusStub = sandbox.stub().returns(jcl.ViewStatus.STOPPED);
             ViewConstructor.prototype.on = viewOnStub;
+            ViewConstructor.prototype.getStatus = viewGetStatusStub;
 
-            TestUtils.renderIntoDocument(<RunApp {...defaultProps} />);
+            let el = TestUtils.renderIntoDocument(<RunApp {...defaultProps} />);
 
             expect(ViewConstructor).to.have.been.calledWithNew;
             expect(ViewConstructor).to.have.been.calledWith(defaultProps.juttleServiceHost);
             expect(InputConstructor).to.have.been.calledWithNew;
             expect(InputConstructor).to.have.been.calledWith(defaultProps.juttleServiceHost);
 
-            expect(viewOnStub).to.have.been.calledTwice;
+            expect(viewOnStub).to.have.been.calledThrice;
             expect(viewOnStub.args[0][0]).to.equal('error');
             expect(viewOnStub.args[1][0]).to.equal('warning');
+            expect(viewOnStub.args[2][0]).to.equal('view-status');
+            expect(viewGetStatusStub).to.have.been.called;
+
+            expect(el.state).to.deep.equal({ runState: jcl.ViewStatus.STOPPED });
         });
 
         it('bundle with no inputs calls Views render', () => {
@@ -188,7 +194,7 @@ describe('run app', () => {
             expect(st.inputClear).to.have.been.calledOnce;
             expect(st.viewClear).to.have.been.calledOnce;
             expect(st.inputRender).to.have.been.notCalled;
-            expect(st.inputGetValues).to.have.been.notCalled;    
+            expect(st.inputGetValues).to.have.been.notCalled;
         });
     })
 });

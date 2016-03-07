@@ -1,9 +1,11 @@
 import React from 'react';
 import classnames from 'classnames';
+import { ViewStatus } from 'juttle-client-library';
 
 import DirectoryListing from '../../client-lib/directory-listing';
 import Dropdown from '../../client-lib/dropdown';
 import JuttleViewer from './juttle-viewer';
+import RunButton from './run-button';
 
 const ENTER_KEY = 13;
 
@@ -39,16 +41,15 @@ class RunHeader extends React.Component {
     };
 
     _renderToggles() {
-        let fontBtnClasses = classnames({
-            'font-btn': true,
+        let codeClasses = classnames('btn', 'btn-default', 'btn-code', {
             'active': this.state.showJuttle
         });
 
         return (
-            <div className={fontBtnClasses}>
+            <div className="font-btn">
                 <button
                     onClick={this._toggleShowJuttle}
-                    className="btn btn-default">
+                    className={codeClasses}>
                     <i className="fa fa-lg fa-fw fa-code"></i>
                 </button>
                 <div className="font-btn-name">view</div>
@@ -69,12 +70,11 @@ class RunHeader extends React.Component {
 
         return (
             <div className="run-menu-fullscreen btn-group" style={style}>
-                <button
+                <RunButton
+                    runState={this.props.runState}
+                    bundle={this.props.bundle}
                     onClick={this.props.onRunClick}
-                    disabled={!this.props.bundle}
-                    className="run-btn btn btn-default">
-                    <i className="fa fa-play fa-fw"></i>
-                </button>
+                    disabled={!this.props.bundle} />
                 <button className="btn btn-default" ref="btnHideFullscreen" onClick={this._toggleFullscreen}>
                     <i className="fa fa-compress fa-fw"></i>
                 </button>
@@ -100,6 +100,8 @@ class RunHeader extends React.Component {
             runModeText = this.props.runMode.path ? 'Path' : 'Rendezvous';
         }
 
+        let runButtonText = this.props.runState === ViewStatus.STOPPED ? 'run' : 'stop';
+
         return (
             <div>
                 { this._renderFullscreen() }
@@ -111,13 +113,12 @@ class RunHeader extends React.Component {
                                 juttleServiceHost={this.props.juttleServiceHost}/>
                         </Dropdown>
                         <div className="font-btn run-btn">
-                            <button
+                            <RunButton
+                                runState={this.props.runState}
+                                bundle={this.props.bundle}
                                 onClick={this.props.onRunClick}
-                                disabled={!this.props.bundle}
-                                className=" btn btn-default">
-                                <i className="fa fa-play fa-lg fa-fw"></i>
-                            </button>
-                            <div className="font-btn-name">run</div>
+                                disabled={!this.props.bundle} />
+                            <div className="font-btn-name">{runButtonText}</div>
                         </div>
                         <div className="run-menu-toggles">
                             { this._renderToggles() }
