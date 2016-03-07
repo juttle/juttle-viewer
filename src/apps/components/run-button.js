@@ -21,6 +21,7 @@ class RunButton extends Component {
                 disabled={!this.props.bundle}
                 className={btnClasses}>
                 <i className={iconClasses}></i>
+                <div className="font-btn-name">{this.props.runButtonText}</div>
             </button>
         );
     }

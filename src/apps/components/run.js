@@ -14,7 +14,8 @@ export class RunApp extends React.Component {
         super();
 
         this.state = {
-            runState: null
+            runState: null,
+            logLines: []
         };
     }
 
@@ -27,6 +28,14 @@ export class RunApp extends React.Component {
         this.view.on('error', this.runtimeError.bind(this, 'error'));
         this.view.on('warning', this.runtimeError.bind(this, 'warning'));
         this.view.on('view-status', this._viewStatusChange);
+        this.view.on('log', (log) => {
+            this.setState({
+                logLines: this.state.logLines.concat([{
+                    text: `[${log.time}] [${log.level}] ${log.name} - ${log.arguments.join(', ')}`,
+                    index: this.state.logLines.length
+                }])
+            });
+        });
 
         this.setState({
             runState: this.view.getStatus()
@@ -77,22 +86,27 @@ export class RunApp extends React.Component {
         this.props.dispatch(actions.newError(err));
     };
 
-    runView = () => {
+    runView = (options) => {
         let { dispatch } = this.props;
+        options = options || {};
 
         this.inputs.getValues()
         .then((values) => {
-            return this.view.run(this.props.bundle, values);
+            return this.view.run(this.props.bundle, values, options.debug);
+        })
+        .then((values) => {
+            this.setState({ logLines: [] });
         })
         .catch(err => { dispatch(actions.newError(err)) });
     };
 
-    handleRunClick = () => {
+    handleRun = (options) => {
         if (this.state.runState === ViewStatus.STOPPED) {
-            this.runView();
+            this.runView(options);
         } else {
             this.view.stop();
         }
+        this.runView(options);
     };
 
     render() {
@@ -100,7 +114,8 @@ export class RunApp extends React.Component {
             <div className="app-main">
                 <RunHeader {...this.props}
                     runState={this.state.runState}
-                    onRunClick={this.handleRunClick}
+                    handleRun={this.handleRun}
+                    logLines = {this.state.logLines} 
                     ref="runHeader" />
                 <div className="run-main">
                     <div ref="juttleSource"></div>

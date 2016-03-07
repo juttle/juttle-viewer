@@ -6,6 +6,7 @@
 @import "./juttle-client-library-overrides";
 @import "./components/directory-listing";
 @import "./components/font-button";
+@import "./components/log-explorer";
 
 body, #app {
     @include flexbox;
