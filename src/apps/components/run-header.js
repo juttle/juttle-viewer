@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import { ViewStatus } from 'juttle-client-library';
 
 import DirectoryListing from '../../client-lib/directory-listing';
 import Dropdown from '../../client-lib/dropdown';
@@ -99,6 +100,8 @@ class RunHeader extends React.Component {
             runModeText = this.props.runMode.path ? 'Path' : 'Rendezvous';
         }
 
+        let runButtonText = this.props.runState === ViewStatus.STOPPED ? 'run' : 'stop';
+
         return (
             <div>
                 { this._renderFullscreen() }
@@ -115,7 +118,7 @@ class RunHeader extends React.Component {
                                 bundle={this.props.bundle}
                                 onClick={this.props.onRunClick}
                                 disabled={!this.props.bundle} />
-                            <div className="font-btn-name">run</div>
+                            <div className="font-btn-name">{runButtonText}</div>
                         </div>
                         <div className="run-menu-toggles">
                             { this._renderToggles() }
