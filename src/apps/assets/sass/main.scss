@@ -7,37 +7,6 @@
 @import "./components/directory-listing";
 @import "./components/font-button";
 
-html, body, #app {
-    height: 100%;
-}
-
-span.logo {
-    font-size: 28px;
-    font-weight: bolder;
-    font-family: Rockwell Extra Bold;
-    vertical-align: middle;
-
-}
-
-.menu-bar {
-    border-right: 1px solid $gray-dark;
-    padding: 10px;
-    @include flexbox;
-
-
-    .header-options {
-        @include flexbox;
-        @include align-items(center);
-    }
-}
-
-.app-wrapper {
-    height: 100%;
-    width: 100%;
-    @include flexbox;
-    @include flex-direction(row);
-}
-
 .app-main {
     width: 100%;
     height:100%;

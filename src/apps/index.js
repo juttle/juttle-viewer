@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router';
 import { syncHistory } from 'react-router-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import reducers from './reducers';
 import observers from './observers';
 
-import App from './components/app';
 import Run from './components/run';
 
 
@@ -28,9 +27,7 @@ observers(store);
 ReactDOM.render((
     <Provider store={store}>
         <Router history={browserHistory}>
-            <Route path="/" component={App}>
-                <IndexRoute component={Run} />
-            </Route>
+            <Route path="/" component={Run} />
         </Router>
     </Provider>
 ), document.getElementById('app'));
