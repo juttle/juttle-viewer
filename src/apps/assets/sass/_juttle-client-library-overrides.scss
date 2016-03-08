@@ -24,6 +24,34 @@
             background-color: $component-active-bg;
         }
     }
+
+    .datepicker,
+    .datepicker__input,
+    .datepicker__input:focus,
+    .datepicker__month .datepicker__day {
+        background-color: $input-bg;
+        color: $input-color;
+        border-color: $input-border;
+        box-shadow: none;
+    }
+
+    .datepicker__month .datepicker__day--selected {
+        background-color: $component-active-bg;
+    }
+
+    .datepicker__month .datepicker__day:hover {
+        background-color: $input-border;
+    }
+
+    .datepicker__current-month,
+    .datepicker__day {
+        color: $input-color;
+    }
+
+    .datepicker__header {
+        background-color: $input-border;
+        color: $input-color;
+    }
 }
 
 .juttle-client-library.inputs-view {
@@ -33,32 +61,4 @@
         min-width: 250px;
         margin-right: 20px;
     }
-}
-
-.datepicker,
-.datepicker__input,
-.datepicker__input:focus,
-.datepicker__month .datepicker__day {
-    background-color: $input-bg;
-    color: $input-color;
-    border-color: $input-border;
-    box-shadow: none;
-}
-
-.datepicker__month .datepicker__day--selected {
-    background-color: $component-active-bg;
-}
-
-.datepicker__month .datepicker__day:hover {
-    background-color: $input-border;
-}
-
-.datepicker__current-month,
-.datepicker__day {
-    color: $input-color;
-}
-
-.datepicker__header {
-    background-color: $input-border;
-    color: $input-color;
 }
