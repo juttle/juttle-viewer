@@ -8,7 +8,8 @@ require('babel-core/register');
 
 gulp.task('instrument', function () {
     return gulp.src([
-        'src/**/*.js'
+        'src/**/*.js',
+        '!src/apps/index.js'
     ])
     .pipe(istanbul({
         includeUntested: true,

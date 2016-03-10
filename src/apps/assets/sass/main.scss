@@ -7,10 +7,17 @@
 @import "./components/directory-listing";
 @import "./components/font-button";
 
+body, #app {
+    @include flexbox;
+    min-height: 100vh;
+    flex-direction: column
+}
+
 .app-main {
     width: 100%;
     height:100%;
     overflow-x: hidden;
+    @include flex-grow(1);
     @include flexbox;
     @include flex-direction(column);
 }
