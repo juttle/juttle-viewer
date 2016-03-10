@@ -1,11 +1,27 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
-## Unreleased Changes
+## 0.3.0 
 
 ## Major Changes
 
 - Reorganization of juttle-viewer layout: [#40](https://github.com/juttle/juttle-viewer/pull/40)
+- Add stop/run program functionality [#23](https://github.com/juttle/juttle-viewer/issues/23)
+- Bump juttle-client-library [#53](https://github.com/juttle/juttle-viewer/53)
+
+## Minor Changes
+
+- Add Readme: [#42](https://github.com/juttle/juttle-viewer/pull/42)
+- Update app page title [#47](https://github.com/juttle/juttle-viewer/pull/47)
+
+## Bug Fixes
+
+- Fix date input's calendar styling [#45](https://github.com/juttle/juttle-viewer/pull/45)
+- Support bundleId [#38](https://github.com/juttle/juttle-viewer/pull/38)
+- Fix issues with app layout height either cutting off dropdown or causing
+unwanted scrollbars [#52](https://github.com/juttle/juttle-viewer/pull/52) &
+[#48](https://github.com/juttle/juttle-viewer/pull/48)
+
 
 ## 0.2.0
 
