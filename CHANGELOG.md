@@ -1,6 +1,13 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## 0.3.1
+
+## Bug Fixes
+
+- No code changes in this repo. Re-publishing to pick up juttle-viz@0.6.1 in the /dist assets.
+
+
 ## 0.3.0 
 
 ## Major Changes
