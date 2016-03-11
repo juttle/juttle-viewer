@@ -219,17 +219,20 @@ class LogExplorer extends React.Component {
 
         return (
             <div className="log-explorer">
+                <span className="help-block">Paginate through logs using linux less commands</span>
                 <div tabIndex={1} className="loglines" ref="currentLogOutput" onKeyDown={this._onKeyDownLogWindow.bind(this)}>
                     {linesToShow}
                 </div>
-                <input 
-                    className="search-box" 
-                    ref="searchTermBox"
-                    placeholder="search term" 
-                    onKeyUp={this._onKeyUpSearchBox.bind(this)} 
-                    type="text" 
-                    />
-                <div className="line-counts">{this.state.cursorPosition + 1 } / {this.props.logLines.length}</div>
+                <div className="form-group">
+                    <input 
+                        className="form-control" 
+                        ref="searchTermBox"
+                        placeholder="search term" 
+                        onKeyUp={this._onKeyUpSearchBox.bind(this)} 
+                        type="text" 
+                        />
+                    <span className="help-block">{this.state.cursorPosition + 1 } / {this.props.logLines.length}</span>
+                </div>
             </div>
         );
     }

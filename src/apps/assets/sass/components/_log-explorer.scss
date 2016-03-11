@@ -5,17 +5,12 @@
     border-bottom: 1px solid $gray-dark;
     padding: 10px;
 
-    .search-box {
-        color: #fff;
-        background-color: #333333;
-        border-color: #555555
-    }
-
     .line-counts {
         text-align: left;
     }
     .loglines {
         overflow-x: auto;
+        margin-bottom: 10px;
     }
 }
 

@@ -30,10 +30,13 @@ export class RunApp extends React.Component {
         this.view.on('view-status', this._viewStatusChange);
         this.view.on('log', (log) => {
             this.setState({
-                logLines: this.state.logLines.concat([{
-                    text: `[${log.time}] [${log.level}] ${log.name} - ${log.arguments.join(', ')}`,
-                    index: this.state.logLines.length
-                }])
+                logLines: [
+                    ...this.state.logLines,
+                    { 
+                        text: `[${log.time}] [${log.level}] ${log.name} - ${log.arguments.join(', ')}`,
+                        index: this.state.logLines.length 
+                    }
+                ]
             });
         });
 

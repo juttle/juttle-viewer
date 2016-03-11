@@ -53,7 +53,7 @@ class RunHeader extends React.Component {
         });
 
         return (
-            <div className="font-btn btn-group run-menu-toggles">
+            <div className="btn-group run-menu-toggles">
                 <button
                     onClick={this._toggleShowJuttle}
                     className={showJuttleClasses}>
@@ -103,7 +103,9 @@ class RunHeader extends React.Component {
 
         let juttleViewer = this.props.bundle && this.state.showJuttle ? <JuttleViewer bundle={this.props.bundle} /> : false;
         
-        let debugViewer = this.state.showDebug ? <LogExplorer logLines={this.props.logLines} /> : false;
+        let debugStyle = {
+            'display': this.state.showDebug ? 'block' : 'none'
+        };
 
         let runModeText = 'Not Set';
         if (this.props.runMode.path || this.props.runMode.rendezvous) {
@@ -162,7 +164,9 @@ class RunHeader extends React.Component {
                 </div>
                 <div className="program-options" style={programOptionsStyle}>
                     { juttleViewer }
-                    { debugViewer }
+                    <div style={debugStyle}>
+                        <LogExplorer logLines={this.props.logLines} />
+                    </div>
                     <div style={inputsStyle} className="run-inputs">
                         <div ref="juttleInputsContainer" onKeyDown={this._onInputContainerKeyDown}></div>
                     </div>
