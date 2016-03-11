@@ -33,6 +33,9 @@ class JuttleEditor extends React.Component {
     componentDidMount() {
         let { editor } = this.refs.aceEditor;
         editor.renderer.setScrollMargin(SCROLL_MARGIN_TOP, SCROLL_MARGIN_BOTTOM);
+        editor.setOptions({
+            maxLines: Infinity
+        });
     }
 
     render() {
@@ -48,7 +51,6 @@ class JuttleEditor extends React.Component {
             <AceEditor
               ref="aceEditor"
               theme="monokai"
-              height="200"
               width="100%"
               mode="juttle"
               onChange={this.onChange.bind(this)}
