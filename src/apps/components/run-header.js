@@ -6,6 +6,8 @@ import DirectoryListing from '../../client-lib/directory-listing';
 import Dropdown from '../../client-lib/dropdown';
 import JuttleViewer from './juttle-viewer';
 import RunButton from './run-button';
+import RunHeaderFullscreen from './run-header-fullscreen';
+
 
 const ENTER_KEY = 13;
 
@@ -15,7 +17,8 @@ class RunHeader extends React.Component {
 
         this.state = {
             showJuttle: false,
-            fullscreen: false
+            fullscreen: false,
+            fullscreenMenu: false
         };
     }
 
@@ -63,25 +66,6 @@ class RunHeader extends React.Component {
         });
     };
 
-    _renderFullscreen() {
-        let style = {
-            'display': this.state.fullscreen ? '' : 'none'
-        };
-
-        return (
-            <div className="run-menu-fullscreen btn-group" style={style}>
-                <RunButton
-                    runState={this.props.runState}
-                    bundle={this.props.bundle}
-                    onClick={this.props.onRunClick}
-                    disabled={!this.props.bundle} />
-                <button className="btn btn-default" ref="btnHideFullscreen" onClick={this._toggleFullscreen}>
-                    <i className="fa fa-compress fa-fw"></i>
-                </button>
-            </div>
-        );
-    }
-
     render() {
         let menuStyle = {
             'display': this.state.fullscreen ? 'none' : ''
@@ -102,9 +86,18 @@ class RunHeader extends React.Component {
 
         let runButtonText = this.props.runState === ViewStatus.STOPPED ? 'run' : 'stop';
 
+        let runHeaderFullscreen = !this.state.fullscreen ? false : (
+            <RunHeaderFullscreen
+                ref="runHeaderFullscreen"
+                runState={this.props.runState}
+                bundle={this.props.bundle}
+                toggleFullscreen={this._toggleFullscreen}
+                onRunClick={this.props.onRunClick} />
+        );
+
         return (
             <div>
-                { this._renderFullscreen() }
+                { runHeaderFullscreen }
                 <div className="run-menu" style={menuStyle}>
                     <div className="left-menu">
                         <Dropdown className="path-selector" ref="Dropdown">

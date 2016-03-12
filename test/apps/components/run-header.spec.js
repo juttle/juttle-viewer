@@ -38,7 +38,5 @@ describe('run-header', () => {
         expect(el.state.fullscreen).to.equal(false);
         ReactTestUtils.Simulate.click(el.refs.btnShowFullscreen);
         expect(el.state.fullscreen).to.equal(true);
-        ReactTestUtils.Simulate.click(el.refs.btnHideFullscreen);
-        expect(el.state.fullscreen).to.equal(false);
     });
 });

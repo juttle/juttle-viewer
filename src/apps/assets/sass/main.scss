@@ -84,13 +84,23 @@ $run-menu-height: 65px;
 }
 
 .run-menu-fullscreen {
+    @include flexbox;
+    @include align-items(center);
     position: fixed;
     height: $run-menu-height;
     z-index: 1000;
-    @include flexbox;
-    @include align-items(center);
-    padding: 0 20px;
     right: 0;
+
+    .btn.btn-fullscreen-menu {
+        color: $gray-light;
+        border: 1px solid $gray-light;
+        padding: 6px;
+        margin-left: 10px;
+        background-color: transparent;
+        border-right: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
 }
 
 .juttle-source {
