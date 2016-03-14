@@ -27,9 +27,8 @@ class RunHeader extends React.Component {
     componentDidMount() {
         let localProgram = localStorage.getItem('program');
         if (localProgram) {
-            let { juttleServiceHost, dispatch } = this.props;
             let bundle = {program: localProgram};
-            promulgateBundle(bundle, LOCAL_BUNDLE_ID, juttleServiceHost, dispatch);
+            this.props.dispatch(promulgateBundle(bundle, LOCAL_BUNDLE_ID));
         }
     }
 

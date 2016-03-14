@@ -28,14 +28,17 @@ export function fetchBundleError(bundleId, error, bundle) {
     };
 }
 
-export function promulgateBundle(bundle, bundleId, juttleServiceHost, dispatch) {
-    dispatch(newBundle(bundleId, bundle, []));
+export function promulgateBundle(bundle, bundleId) {
+    return (dispatch, getState) => {
+        const { juttleServiceHost } = getState();
+        dispatch(newBundle(bundleId, bundle, []));
 
-    return api.describe(juttleServiceHost, bundle)
-    .then(inputs => {
-        dispatch(newBundle(bundleId, bundle, inputs));
-    })
-    .catch(err => {
-        dispatch(fetchBundleError(bundleId, err, bundle));
-    });
+        return api.describe(juttleServiceHost, bundle)
+        .then(inputs => {
+            dispatch(newBundle(bundleId, bundle, inputs));
+        })
+        .catch(err => {
+            dispatch(fetchBundleError(bundleId, err, bundle));
+        });
+    };
 }

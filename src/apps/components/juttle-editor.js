@@ -24,9 +24,8 @@ class JuttleEditor extends React.Component {
     _updateProgram(newValue) {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            let {juttleServiceHost, dispatch} = this.props;
             let bundle = {program: newValue};
-            promulgateBundle(bundle, LOCAL_BUNDLE_ID, juttleServiceHost, dispatch);
+            this.props.dispatch(promulgateBundle(bundle, LOCAL_BUNDLE_ID));
         }, EDIT_EVAL_INTERVAL_MS);
     }
 
