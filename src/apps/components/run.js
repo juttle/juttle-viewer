@@ -58,6 +58,10 @@ export class RunApp extends React.Component {
         let isLocal = nextProps.bundleId === LOCAL_BUNDLE_ID;
         let bundleUpdated = newBundle || (nextProps.bundle !== this.props.bundle);
 
+        if (nextProps.error) {
+            this._viewStatusChange(ViewStatus.STOPPED);
+        }
+
         // if no bundle clear everything
         if (!nextProps.bundle) {
             this.inputs.clear();

@@ -112,15 +112,11 @@ class RunHeader extends React.Component {
             'display': this.state.fullscreen ? 'none' : ''
         };
 
-<<<<<<< HEAD
-        let juttleViewer = this.props.bundle && this.state.showJuttle ? <JuttleViewer bundle={this.props.bundle} /> : false;
-
         let debugStyle = {
             'display': this.state.showDebug ? 'block' : 'none'
         };
-=======
+
         let juttleViewer = this.state.showJuttle ? <JuttleViewer {...this.props} /> : false;
->>>>>>> d51a718... Add `edit` button to code viewer
 
         let runModeText = 'Not Set';
         if (this.props.runMode.path || this.props.runMode.rendezvous) {
@@ -154,7 +150,7 @@ class RunHeader extends React.Component {
                                 bundle={this.props.bundle}
                                 onClick={this._run}
                                 runButtonText={runButtonText}
-                                disabled={!this.props.bundle} />
+                                disabled={!this.props.bundle || !!this.props.error} />
                         </div>
                         { this._renderToggles() }
                         <div className="program-meta">
