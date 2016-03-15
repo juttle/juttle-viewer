@@ -6,14 +6,6 @@ import { LOCAL_BUNDLE_ID } from '../constants';
 import { Link } from 'react-router';
 
 class JuttleViewer extends React.Component {
-    constructor(props) {
-        super(props);
-        let isNewBundle = !props.bundle;
-        if (isNewBundle) {
-            props.dispatch(newBundle(LOCAL_BUNDLE_ID, {program: ''}, {}));
-        }
-    }
-
     handleClick = () => {
         if (this.props.bundle) {
             localStorage.setItem('program', this.props.bundle.program);

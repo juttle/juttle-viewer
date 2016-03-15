@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import classnames from 'classnames';
 import { ViewStatus } from 'juttle-client-library';
 
@@ -51,14 +52,20 @@ class RunHeader extends React.Component {
             'active': this.state.showDebug
         });
 
+        let query = !this.props.bundle ? { local: true } : this.props.location.query;
+
         return (
+<<<<<<< HEAD
             <div className="btn-group run-menu-toggles">
-                <button
-                    onClick={this._toggleShowJuttle}
-                    className={showJuttleClasses}>
-                    <i className="fa fa-lg fa-fw fa-code"></i>
-                    <div className="font-btn-name">view</div>
-                </button>
+                <div className="font-btn">
+                    <Link
+                        onClick={this._toggleShowJuttle}
+                        to={{ pathname: '/', query: query}}
+                        className={codeClasses}>
+                        <i className="fa fa-lg fa-fw fa-code"></i>
+                    </Link>
+                    <div className="font-btn-name">code</div>
+                </div>
                 <button
                     onClick={this._toggleShowDebug}
                     ref="btnShowDebug"
@@ -66,8 +73,6 @@ class RunHeader extends React.Component {
                     <i className="fa fa-lg fa-fw fa-medkit"></i>
                     <div className="font-btn-name">debug</div>
                 </button>
-                <div className="font-btn-name">code</div>
-            </div>
         );
     }
 
