@@ -59,7 +59,7 @@ export class RunApp extends React.Component {
         let bundleUpdated = newBundle || (nextProps.bundle !== this.props.bundle);
 
         if (nextProps.error) {
-            this._viewStatusChange(ViewStatus.STOPPED);
+            this.view.stop();
         }
 
         // if no bundle clear everything
