@@ -108,11 +108,6 @@ class RunHeader extends React.Component {
 
         let juttleViewer = this.state.showJuttle ? <JuttleViewer {...this.props} /> : false;
 
-        let runModeText = 'Not Set';
-        if (this.props.runMode.path || this.props.runMode.rendezvous) {
-            runModeText = this.props.runMode.path ? 'Path' : 'Rendezvous';
-        }
-
         let runButtonText = this.props.runState === ViewStatus.STOPPED ? 'run' : 'stop';
 
         let runHeaderFullscreen = !this.state.fullscreen ? false : (
@@ -145,11 +140,6 @@ class RunHeader extends React.Component {
                         { this._renderToggles() }
                         <div className="program-meta">
                             <div className="bundle-id">{this.props.bundleId}</div>
-                            <div className="run-mode">
-                                <span className="run-mode-title">run mode:</span>
-                                &nbsp;
-                                <span className="run-mode-text">{runModeText}</span>
-                            </div>
                         </div>
                     </div>
                     <div className="right-menu">
