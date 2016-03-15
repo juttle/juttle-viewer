@@ -23,7 +23,12 @@ class JuttleViewer extends React.Component {
     render() {
         var readOnly = !this.props.runMode.local;
         let editButton = readOnly ? (
-        <Link to={{ pathname: '/', query: { local: true }}} onClick={this.handleClick} className="btn btn-default btn-edit" >edit</Link>
+            <Link
+                to={{ pathname: '/', query: { local: true }}}
+                onClick={this.handleClick}
+                className="btn btn-default btn-edit">
+                <i className="fa fa-pencil fa-fw"></i>
+            </Link>
         ): null;
 
         return (
