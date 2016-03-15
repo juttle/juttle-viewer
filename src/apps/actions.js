@@ -31,7 +31,9 @@ export function fetchBundleError(bundleId, error, bundle) {
 export function promulgateBundle(bundle, bundleId) {
     return (dispatch, getState) => {
         const { juttleServiceHost } = getState();
-        dispatch(newBundle(bundleId, bundle, []));
+        if (!bundle.program) {
+            return dispatch(newBundle(bundleId, bundle, []));
+        }
 
         return api.describe(juttleServiceHost, bundle)
         .then(inputs => {

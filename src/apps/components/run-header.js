@@ -5,8 +5,6 @@ import { ViewStatus } from 'juttle-client-library';
 import DirectoryListing from '../../client-lib/directory-listing';
 import Dropdown from '../../client-lib/dropdown';
 import JuttleViewer from './juttle-viewer';
-import { promulgateBundle } from '../actions';
-import { LOCAL_BUNDLE_ID } from '../constants';
 import RunButton from './run-button';
 import RunHeaderFullscreen from './run-header-fullscreen';
 import LogExplorer from './log-explorer/log-explorer'
@@ -22,14 +20,6 @@ class RunHeader extends React.Component {
             fullscreenMenu: false,
             showDebug: false
         };
-    }
-
-    componentDidMount() {
-        let localProgram = localStorage.getItem('program');
-        if (localProgram) {
-            let bundle = {program: localProgram};
-            this.props.dispatch(promulgateBundle(bundle, LOCAL_BUNDLE_ID));
-        }
     }
 
     // called by parent

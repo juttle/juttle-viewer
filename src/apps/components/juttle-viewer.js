@@ -3,6 +3,7 @@ import React from 'react';
 import JuttleEditor from './juttle-editor';
 import { newBundle } from '../actions';
 import { LOCAL_BUNDLE_ID } from '../constants';
+import { Link } from 'react-router';
 
 class JuttleViewer extends React.Component {
     constructor(props) {
@@ -11,39 +12,27 @@ class JuttleViewer extends React.Component {
         if (isNewBundle) {
             props.dispatch(newBundle(LOCAL_BUNDLE_ID, {program: ''}, {}));
         }
-
-        let query = window.location.search || '';
-        let isLocal = query.match(/\?local/);
-        this.state = {
-            readOnly: !isNewBundle && !isLocal
-        };
     }
 
-    edit() {
-        window.history.pushState('local', 'local', '?local');
-
+    handleClick = () => {
         if (this.props.bundle) {
             localStorage.setItem('program', this.props.bundle.program);
         }
-
-        this.setState({
-            readOnly: false
-        });
     }
 
     render() {
-        let editButton = this.state.readOnly ? <button
-            onClick={this.edit.bind(this)}
-            className="btn btn-default btn-code btn-edit">
-            edit
-        </button> : null;
+        var readOnly = !this.props.runMode.local;
+        let editButton = readOnly ? (
+        <Link to={{ pathname: '/', query: { local: true }}} onClick={this.handleClick} className="btn btn-default btn-edit" >edit</Link>
+        ): null;
+
         return (
             <div className="juttle-editor">
                 {editButton}
                 <div className='juttle-source'>
                     <JuttleEditor
                         {...this.props}
-                        readOnly={this.state.readOnly}
+                        readOnly={readOnly}
                     />
                 </div>
             </div>

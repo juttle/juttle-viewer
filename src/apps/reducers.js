@@ -16,6 +16,12 @@ function runMode(state = { path: null, rendezvous: null }, action) {
                 path: null,
                 rendezvous: query.rendezvous
             }
+        } else if (query.local) {
+            return {
+                path: null,
+                rendezvous: null,
+                local: true
+            };
         }
     }
 

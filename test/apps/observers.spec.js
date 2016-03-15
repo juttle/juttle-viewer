@@ -20,9 +20,9 @@ class FakeStore {
         this.event = new EventEmitter();
     }
 
-    getState() {
+    getState = () => {
         return this.state;
-    }
+    };
 
     updateState(newState) {
         newState = Object.assign(this.state, newState);
@@ -33,9 +33,12 @@ class FakeStore {
         this.subscribeCB = cb;
     }
 
-    dispatch(action) {
+    dispatch = (action) => {
+        if (typeof action === 'function') {
+            return action(this.dispatch, this.getState);
+        }
         this.event.emit(action.type, action);
-    }
+    };
 }
 
 function createFakeStore(state) {
