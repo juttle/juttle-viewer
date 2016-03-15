@@ -39,4 +39,17 @@ describe('run-header', () => {
         ReactTestUtils.Simulate.click(el.refs.btnShowFullscreen);
         expect(el.state.fullscreen).to.equal(true);
     });
+    
+    it('toggles debug', () => {
+        const props = {
+            runMode: { path: 'test', rendezvous: null }
+        };
+
+        let el = ReactTestUtils.renderIntoDocument(<RunHeader {...props} />);
+        
+        expect(el.state.showDebug).to.equal(false);
+        ReactTestUtils.Simulate.click(el.refs.btnShowDebug);
+        expect(el.state.showDebug).to.equal(true);
+        expect(el.refs.divLogExplorer.style['display']).to.equal('block');
+    });
 });

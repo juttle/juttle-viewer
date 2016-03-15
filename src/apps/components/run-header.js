@@ -62,6 +62,7 @@ class RunHeader extends React.Component {
                 </button>
                 <button
                     onClick={this._toggleShowDebug}
+                    ref="btnShowDebug"
                     className={showDebugClasses}>
                     <i className="fa fa-lg fa-fw fa-medkit"></i>
                     <div className="font-btn-name">debug</div>
@@ -164,7 +165,7 @@ class RunHeader extends React.Component {
                 </div>
                 <div className="program-options" style={programOptionsStyle}>
                     { juttleViewer }
-                    <div style={debugStyle}>
+                    <div ref="divLogExplorer" style={debugStyle}>
                         <LogExplorer logLines={this.props.logLines} />
                     </div>
                     <div style={inputsStyle} className="run-inputs">

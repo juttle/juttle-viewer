@@ -53,7 +53,6 @@ class LogLine extends React.Component {
 
         let matches = this._findMatches(this.props.lineText, this.props.searchTerm);
         let spans = this._buildLineSpans(matches,searchTermLength, this.props.cursorLine);
-
         return (
             <div className="log-line">{spans}</div>
         );

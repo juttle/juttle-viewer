@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'underscore';
 
 import LogLine from './log-line';
+import KEY_CODES from './key-codes';
 
 const WINDOW_SIZE = 10;
 
@@ -12,8 +13,8 @@ class LogExplorer extends React.Component {
         this.state = {
             allLines : [],
             searchTerm : null,
-            cursorPosition : 0,
-            windowStart : 0
+            cursorPosition : 1,
+            windowStart : 1
         };
     }
     _onKeyUpSearchBox(e) {
@@ -30,7 +31,7 @@ class LogExplorer extends React.Component {
             let lineLowerCase = this.props.logLines[i].text.toLowerCase();
 
             if (lineLowerCase.indexOf(searchTerm.toLowerCase()) !== -1) {
-                matches.push(i);
+                matches.push(this.props.logLines[i].index);
             }
         }
         this.setState({
@@ -44,7 +45,9 @@ class LogExplorer extends React.Component {
             this._moveToPrevMatch(matches);
         }
         else {
-            this._moveToNextMatch(matches);
+            //result of enter key on search should stay on first result
+            let compare = (match) => { return match >= this.state.cursorPosition; };
+            this._moveToNextMatch(matches, compare);
         }
     }
     _onKeyDownLogWindow(e) {
@@ -53,7 +56,7 @@ class LogExplorer extends React.Component {
         let newWindowStart;
         let handled = false;
         switch(keyCode) {
-            case 78: // n
+            case KEY_CODES.n:
                 handled = true;
                 if (this._searchRoleReversal) {
                     this._moveToPrevMatch(this.state.matches);
@@ -62,7 +65,7 @@ class LogExplorer extends React.Component {
                     this._moveToNextMatch(this.state.matches);
                 }
                 break;
-            case 80: // p
+            case KEY_CODES.p:
                 handled = true;
                 if (this._searchRoleReversal) {
                     this._moveToNextMatch(this.state.matches);
@@ -71,13 +74,13 @@ class LogExplorer extends React.Component {
                     this._moveToPrevMatch(this.state.matches);
                 }
                 break;
-            case 191: // /
+            case KEY_CODES.forwardSlash:
                 handled = true;
                 this._searchRoleReversal = !!e.shiftKey;
-                this.refs.searchTermBox.getDOMNode().focus();
-                this.refs.searchTermBox.getDOMNode().select();
+                this.refs.searchTermBox.focus();
+                this.refs.searchTermBox.select();
                 break;
-            case 71: // g
+            case KEY_CODES.g:
                 handled = true;
                 if (e.shiftKey) {
                     this._goToEnd();
@@ -86,16 +89,16 @@ class LogExplorer extends React.Component {
                     this._goToStart();
                 }
                 break;
-            case 32: // space
+            case KEY_CODES.space:
                 handled = true;
                 this._pageDown();
                 break;
-            case 66: // b
+            case KEY_CODES.b:
                 handled = true;
                 this._pageUp();
                 break;
-            case 75: // k
-            case 38: // up arrow
+            case KEY_CODES.k:
+            case KEY_CODES.upArrow:
                 handled = true;
                 if (pos !== 0) {
                     if (this.state.cursorPosition === this.state.windowStart) {
@@ -110,8 +113,8 @@ class LogExplorer extends React.Component {
                     });
                 }
                 break;
-            case 74: // j
-            case 40: // down arrow
+            case KEY_CODES.j:
+            case KEY_CODES.downArrow:
                 handled = true;
                 if (this.state.cursorPosition !== this.props.logLines.length-1) {
                     if (this.state.cursorPosition === this.state.windowStart + WINDOW_SIZE - 1) {
@@ -132,12 +135,14 @@ class LogExplorer extends React.Component {
             e.preventDefault();
         }
     }
-    _moveToNextMatch(matches) {
-        let pos = this.state.cursorPosition;
-        let match = _.find(matches, function(match) {
-            return match > pos;
-        });
-
+    _moveToNextMatch(matches, compare) {
+        let compareFunction = (match) => { return match > this.state.cursorPosition; };
+        if (compare) {
+            compareFunction = compare;
+        }
+        
+        let match = _.find(matches, compareFunction);
+        
         if (match !== undefined) {
             this.setState({
                 cursorPosition : match
@@ -170,8 +175,8 @@ class LogExplorer extends React.Component {
     }
     _goToStart() {
         this.setState({
-            cursorPosition : 0,
-            windowStart: 0
+            cursorPosition : 1,
+            windowStart: 1
         });
     }
     _goToEnd() {
@@ -192,7 +197,7 @@ class LogExplorer extends React.Component {
         }
     }
     _pageDown() {
-        if(this.state.windowStart + 2*WINDOW_SIZE > this.props.logLines.length-1) {
+        if(this.state.windowStart + 2*WINDOW_SIZE > this.props.logLines.length) {
             this._goToEnd();
         }
         else {
@@ -208,7 +213,8 @@ class LogExplorer extends React.Component {
         });
     }
     render() {
-        let linesToShow = this.props.logLines.slice(this.state.windowStart, this.state.windowStart + WINDOW_SIZE)
+        let logLines = this.props.logLines || [];
+        let linesToShow = logLines.slice(this.state.windowStart, this.state.windowStart + WINDOW_SIZE)
             .map((line) => {
                 return <LogLine key={line.index} index={line.index} cursorLine={line.index === this.state.cursorPosition} searchTerm={this.state.searchTerm} lineText={line.text}/>;
             });
@@ -231,7 +237,7 @@ class LogExplorer extends React.Component {
                         onKeyUp={this._onKeyUpSearchBox.bind(this)} 
                         type="text" 
                         />
-                    <span className="help-block">{this.state.cursorPosition + 1 } / {this.props.logLines.length}</span>
+                    <span className="help-block">{this.state.cursorPosition + 1 } / {logLines.length}</span>
                 </div>
             </div>
         );
