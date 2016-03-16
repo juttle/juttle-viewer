@@ -1,6 +1,13 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## 0.3.2
+
+## Bug Fixes
+
+- add the babel transform-object-assign plugin [e90f63f](https://github.com/juttle/juttle-viewer/pull/56/commits/e90f63fbf60b5479b6b481f5e3659d1e7d54db0b)
+ - Fixes [juttle/juttle-engine#93](https://github.com/juttle/juttle-engine/issues/93)
+
 ## 0.3.1
 
 ## Bug Fixes
