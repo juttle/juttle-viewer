@@ -55,17 +55,14 @@ class RunHeader extends React.Component {
         let query = !this.props.bundle ? { local: true } : this.props.location.query;
 
         return (
-<<<<<<< HEAD
-            <div className="btn-group run-menu-toggles">
-                <div className="font-btn">
-                    <Link
-                        onClick={this._toggleShowJuttle}
-                        to={{ pathname: '/', query: query}}
-                        className={codeClasses}>
-                        <i className="fa fa-lg fa-fw fa-code"></i>
-                    </Link>
+            <div className="run-menu-toggles">
+                <Link
+                    onClick={this._toggleShowJuttle}
+                    to={{ pathname: '/', query: query}}
+                    className={showJuttleClasses}>
+                    <i className="fa fa-lg fa-fw fa-code"></i>
                     <div className="font-btn-name">code</div>
-                </div>
+                </Link>
                 <button
                     onClick={this._toggleShowDebug}
                     ref="btnShowDebug"
@@ -73,6 +70,7 @@ class RunHeader extends React.Component {
                     <i className="fa fa-lg fa-fw fa-medkit"></i>
                     <div className="font-btn-name">debug</div>
                 </button>
+            </div>
         );
     }
 
@@ -111,7 +109,7 @@ class RunHeader extends React.Component {
             'display': this.state.showDebug ? 'block' : 'none'
         };
 
-        let juttleViewer = this.state.showJuttle ? <JuttleViewer {...this.props} /> : false;
+        let juttleViewer = this.state.showJuttle ? <JuttleViewer {...this.props} onRunClick={this._run} /> : false;
 
         let runButtonText = this.props.runState === ViewStatus.STOPPED ? 'run' : 'stop';
 
