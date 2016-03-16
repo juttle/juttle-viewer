@@ -7,6 +7,7 @@ import { Server as mockSocketServer, WebSocket } from 'mock-socket';
 import EventEmitter from 'eventemitter3';
 import { expect } from 'chai';
 import { NEW_BUNDLE } from '../../src/apps/actions';
+import { LOCAL_BUNDLE_ID } from '../../src/apps/constants';
 
 const API_PREFIX = '/api/v0';
 
@@ -20,9 +21,9 @@ class FakeStore {
         this.event = new EventEmitter();
     }
 
-    getState() {
+    getState = () => {
         return this.state;
-    }
+    };
 
     updateState(newState) {
         newState = Object.assign(this.state, newState);
@@ -33,9 +34,12 @@ class FakeStore {
         this.subscribeCB = cb;
     }
 
-    dispatch(action) {
+    dispatch = (action) => {
+        if (typeof action === 'function') {
+            return action(this.dispatch, this.getState);
+        }
         this.event.emit(action.type, action);
-    }
+    };
 }
 
 function createFakeStore(state) {
@@ -199,4 +203,47 @@ describe('bundleMiddleware', () => {
         });
     });
 
+    it('promulgates a bundle when runMode becomes local', function() {
+        const program = 'hello';
+        const bundle = {program};
+        nock(`http://localhost:${testPort}`)
+            .post(`${API_PREFIX}/prepare`, {
+                bundle,
+                inputs: {}
+            })
+            .reply(200, []);
+
+        const store = createFakeStore({
+            juttleServiceHost: `localhost:${testPort}`,
+            runMode: {
+                path: null,
+                rendezvous: null
+            }
+        });
+
+        return new Promise(resolve => {
+            store.event.once(NEW_BUNDLE, (action) => {
+                resolve(action);
+            });
+
+            let localStorage = global.localStorage;
+            localStorage.setItem('program', 'hello');
+
+            store.updateState({
+                runMode: {
+                    path: null,
+                    rendezvous: null,
+                    local: true
+                }
+            });
+        })
+        .then(action => {
+            expect(action).to.deep.equal({
+                bundleId: LOCAL_BUNDLE_ID,
+                bundle,
+                type: NEW_BUNDLE,
+                inputs: []
+            });
+        });
+    });
 });

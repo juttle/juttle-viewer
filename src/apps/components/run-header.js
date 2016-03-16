@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import classnames from 'classnames';
 import { ViewStatus } from 'juttle-client-library';
 
@@ -14,7 +15,6 @@ const ENTER_KEY = 13;
 class RunHeader extends React.Component {
     constructor() {
         super();
-
         this.state = {
             showJuttle: false,
             fullscreen: false,
@@ -52,14 +52,17 @@ class RunHeader extends React.Component {
             'active': this.state.showDebug
         });
 
+        let query = !this.props.bundle ? { local: true } : this.props.location.query;
+
         return (
-            <div className="btn-group run-menu-toggles">
-                <button
+            <div className="run-menu-toggles">
+                <Link
                     onClick={this._toggleShowJuttle}
+                    to={{ pathname: '/', query: query}}
                     className={showJuttleClasses}>
                     <i className="fa fa-lg fa-fw fa-code"></i>
-                    <div className="font-btn-name">view</div>
-                </button>
+                    <div className="font-btn-name">code</div>
+                </Link>
                 <button
                     onClick={this._toggleShowDebug}
                     ref="btnShowDebug"
@@ -76,18 +79,18 @@ class RunHeader extends React.Component {
             fullscreen: !this.state.fullscreen
         });
     };
-    
+
     _toggleShowDebug = () => {
         this.setState({
             showDebug: !this.state.showDebug
         });
     };
-    
+
     _run = () => {
         var options = {
             debug: this.state.showDebug
         };
-        
+
         this.props.handleRun(options);
     }
 
@@ -102,16 +105,11 @@ class RunHeader extends React.Component {
             'display': this.state.fullscreen ? 'none' : ''
         };
 
-        let juttleViewer = this.props.bundle && this.state.showJuttle ? <JuttleViewer bundle={this.props.bundle} /> : false;
-        
         let debugStyle = {
             'display': this.state.showDebug ? 'block' : 'none'
         };
 
-        let runModeText = 'Not Set';
-        if (this.props.runMode.path || this.props.runMode.rendezvous) {
-            runModeText = this.props.runMode.path ? 'Path' : 'Rendezvous';
-        }
+        let juttleViewer = this.state.showJuttle ? <JuttleViewer {...this.props} onRunClick={this._run} /> : false;
 
         let runButtonText = this.props.runState === ViewStatus.STOPPED ? 'run' : 'stop';
 
@@ -140,16 +138,11 @@ class RunHeader extends React.Component {
                                 bundle={this.props.bundle}
                                 onClick={this._run}
                                 runButtonText={runButtonText}
-                                disabled={!this.props.bundle} />
+                                disabled={!this.props.bundle || !!this.props.error} />
                         </div>
                         { this._renderToggles() }
                         <div className="program-meta">
                             <div className="bundle-id">{this.props.bundleId}</div>
-                            <div className="run-mode">
-                                <span className="run-mode-title">run mode:</span>
-                                &nbsp;
-                                <span className="run-mode-text">{runModeText}</span>
-                            </div>
                         </div>
                     </div>
                     <div className="right-menu">

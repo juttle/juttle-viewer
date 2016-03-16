@@ -35,7 +35,10 @@
   },
   "homepage": "https://github.com/juttle/juttle-viewer#readme",
   "dependencies": {
+    "brace": "^0.7.0",
     "express": "^4.13.4",
+    "juttle-react-ace": "^3.1.0",
+    "redux-thunk": "^2.0.1",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

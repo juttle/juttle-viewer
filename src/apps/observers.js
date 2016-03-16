@@ -1,7 +1,8 @@
 import observeStore from '../client-lib/observe-store';
-import { newBundle, fetchBundleError } from './actions';
+import { promulgateBundle } from './actions';
 import * as api from '../client-lib/api';
 import RendezvousSocket from '../client-lib/rendezvous-socket';
+import { LOCAL_BUNDLE_ID } from './constants';
 
 function runMode(store) {
     let rendezvous;
@@ -10,25 +11,19 @@ function runMode(store) {
 
 
     function runModeChanged(runMode) {
-        function bundleReceived(bundleId, bundle) {
-            return api.describe(juttleServiceHost, bundle)
-            .then(inputs => {
-                store.dispatch(newBundle(bundleId, bundle, inputs));
-            })
-            .catch(err => { store.dispatch(fetchBundleError(bundleId, err)) })
-        }
-
         if (rendezvous) {
             rendezvous.close();
         }
 
         if (runMode.path) {
             api.getBundle(juttleServiceHost, runMode.path)
-            .then(res => bundleReceived(runMode.path, res.bundle))
-            .catch(err => { store.dispatch(fetchBundleError(runMode.path, err)) })
+            .then(res => store.dispatch(promulgateBundle(res.bundle, runMode.path)));
         } else if (runMode.rendezvous) {
             rendezvous = new RendezvousSocket(`ws://${juttleServiceHost}/rendezvous/${runMode.rendezvous}`);
-            rendezvous.on('message', msg => bundleReceived(msg.bundle_id, msg.bundle));
+            rendezvous.on('message', msg => store.dispatch(promulgateBundle(msg.bundle, msg.bundle_id)));
+        } else if (runMode.local) {
+            var bundle = {program: localStorage.getItem('program')};
+            store.dispatch(promulgateBundle(bundle, LOCAL_BUNDLE_ID));
         }
     }
 

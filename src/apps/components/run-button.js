@@ -18,7 +18,7 @@ class RunButton extends Component {
         return (
             <button
                 onClick={this.props.onClick}
-                disabled={!this.props.bundle}
+                disabled={this.props.disabled}
                 className={btnClasses}>
                 <i className={iconClasses}></i>
                 <div className="font-btn-name">{this.props.runButtonText}</div>
