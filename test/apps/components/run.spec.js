@@ -35,6 +35,7 @@ describe('run app', () => {
             bundleId: null,
             bundle: null,
             inputs: null,
+            location: {query: ''},
             juttleServiceHost: 'localhost:8080'
         };
 

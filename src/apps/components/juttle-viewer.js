@@ -1,8 +1,6 @@
 import React from 'react';
 
 import JuttleEditor from './juttle-editor';
-import { newBundle } from '../actions';
-import { LOCAL_BUNDLE_ID } from '../constants';
 import { Link } from 'react-router';
 
 class JuttleViewer extends React.Component {
@@ -16,6 +14,7 @@ class JuttleViewer extends React.Component {
         var readOnly = !this.props.runMode.local;
         let editButton = readOnly ? (
             <Link
+                ref="editButton"
                 to={{ pathname: '/', query: { local: true }}}
                 onClick={this.handleClick}
                 className="btn btn-default btn-edit">
