@@ -85,13 +85,17 @@ describe('run app', () => {
             expect(InputConstructor).to.have.been.calledWithNew;
             expect(InputConstructor).to.have.been.calledWith(defaultProps.juttleServiceHost);
 
-            expect(viewOnStub).to.have.been.calledThrice;
+            expect(viewOnStub.callCount).equal(4);
             expect(viewOnStub.args[0][0]).to.equal('error');
             expect(viewOnStub.args[1][0]).to.equal('warning');
             expect(viewOnStub.args[2][0]).to.equal('view-status');
+            expect(viewOnStub.args[3][0]).to.equal('log');
             expect(viewGetStatusStub).to.have.been.called;
 
-            expect(el.state).to.deep.equal({ runState: jcl.ViewStatus.STOPPED });
+            expect(el.state).to.deep.equal({ 
+                runState: jcl.ViewStatus.STOPPED,
+                logLines: []
+            });
         });
 
         it('bundle with no inputs calls Views render', () => {

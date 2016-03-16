@@ -54,8 +54,8 @@ class Dropdown extends React.Component {
                         onTouchEnd={this._handleMouseDown}
                         type="button">
                         <i className="fa fa-lg fa-folder fa-fw"></i>
+                        <div className="font-btn-name">path</div>
                     </button>
-                    <div className="font-btn-name">path</div>
                 </div>
                 <div id="directory-listing" className="dropdown-menu">
                     {this.props.children}
