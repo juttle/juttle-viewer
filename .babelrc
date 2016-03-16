@@ -1,4 +1,7 @@
 {
-    "plugins": ["transform-class-properties"],
+    "plugins": [
+        "transform-class-properties",
+        "transform-object-assign"
+    ],
     "presets": ["react", "es2015"]
 }
