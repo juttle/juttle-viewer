@@ -54,15 +54,28 @@ class RunHeader extends React.Component {
 
         let query = !this.props.bundle ? { local: true } : this.props.location.query;
 
+        var codeBtn;
+        if (this.props.runMode.path || this.props.runMode.rendezvous || this.props.runMode.local) {
+            codeBtn = (<button
+                onClick={this._toggleShowJuttle}
+                className={showJuttleClasses}>
+                <i className="fa fa-lg fa-fw fa-code"></i>
+                <div className="font-btn-name">code</div>
+            </button>);
+        } else {
+            codeBtn = (<Link
+                onClick={this._toggleShowJuttle}
+                to={{ pathname: '/', query: query}}
+                className={showJuttleClasses}>
+                <i className="fa fa-lg fa-fw fa-code"></i>
+                <div className="font-btn-name">code</div>
+            </Link>);
+        }
+
+
         return (
             <div className="btn-group run-menu-toggles">
-                <Link
-                    onClick={this._toggleShowJuttle}
-                    to={{ pathname: '/', query: query}}
-                    className={showJuttleClasses}>
-                    <i className="fa fa-lg fa-fw fa-code"></i>
-                    <div className="font-btn-name">code</div>
-                </Link>
+                { codeBtn }
                 <button
                     onClick={this._toggleShowDebug}
                     ref="btnShowDebug"
