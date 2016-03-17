@@ -55,7 +55,7 @@ class RunHeader extends React.Component {
         let query = !this.props.bundle ? { local: true } : this.props.location.query;
 
         return (
-            <div className="run-menu-toggles">
+            <div className="btn-group run-menu-toggles">
                 <Link
                     onClick={this._toggleShowJuttle}
                     to={{ pathname: '/', query: query}}
