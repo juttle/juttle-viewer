@@ -44,38 +44,44 @@ class RunHeader extends React.Component {
         this.refs.Dropdown.close();
     };
 
-    _renderToggles() {
+    _renderCodeButton() {
         let showJuttleClasses = classnames('btn', 'btn-default', 'btn-code', {
             'active': this.state.showJuttle
         });
+        let query = !this.props.bundle ? { local: true } : this.props.location.query;
+        let codeButtonProps = {
+            onClick: this._toggleShowJuttle,
+            className: showJuttleClasses
+        };
+        let codeIcon =  (<i className="fa fa-lg fa-fw fa-code"></i>);
+        let codeTitle = (<div className="font-btn-name">code</div>);
+        let runModeSet = this.props.runMode.path || this.props.runMode.rendezvous || this.props.runMode.local;
+
+        if (runModeSet) {
+            return (
+                <button {...codeButtonProps}>
+                    {codeIcon}
+                    {codeTitle}
+                </button>
+            );
+        } else {
+            return (
+                <Link to={{ pathname: '/', query: query}} {...codeButtonProps}>
+                    {codeIcon}
+                    {codeTitle}
+                </Link>
+            );
+        }
+    }
+
+    _renderToggles() {
         let showDebugClasses = classnames('btn', 'btn-default', 'btn-code', {
             'active': this.state.showDebug
         });
 
-        let query = !this.props.bundle ? { local: true } : this.props.location.query;
-
-        var codeBtn;
-        if (this.props.runMode.path || this.props.runMode.rendezvous || this.props.runMode.local) {
-            codeBtn = (<button
-                onClick={this._toggleShowJuttle}
-                className={showJuttleClasses}>
-                <i className="fa fa-lg fa-fw fa-code"></i>
-                <div className="font-btn-name">code</div>
-            </button>);
-        } else {
-            codeBtn = (<Link
-                onClick={this._toggleShowJuttle}
-                to={{ pathname: '/', query: query}}
-                className={showJuttleClasses}>
-                <i className="fa fa-lg fa-fw fa-code"></i>
-                <div className="font-btn-name">code</div>
-            </Link>);
-        }
-
-
         return (
             <div className="btn-group run-menu-toggles">
-                { codeBtn }
+                { this._renderCodeButton() }
                 <button
                     onClick={this._toggleShowDebug}
                     ref="btnShowDebug"
