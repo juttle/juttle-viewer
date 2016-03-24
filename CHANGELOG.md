@@ -1,6 +1,13 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## 0.4.0
+
+## Major Changes
+
+  Added an `edit` mode to enable editing code in the browser [#29](https://github.com/juttle/juttle-viewer/issues/29)
+  Added a `debug` mode that shows logs from program executions [#7](https://github.com/juttle/juttle-viewer/issues/7)
+
 ## 0.3.1
 
 ## Bug Fixes
