@@ -6,7 +6,7 @@ import nock from 'nock';
 import { Server as mockSocketServer, WebSocket } from 'mock-socket';
 import EventEmitter from 'eventemitter3';
 import { expect } from 'chai';
-import { NEW_BUNDLE } from '../../src/apps/actions';
+import { NEW_BUNDLE, NEW_ERROR } from '../../src/apps/actions';
 import { LOCAL_BUNDLE_ID } from '../../src/apps/constants';
 
 const API_PREFIX = '/api/v0';
@@ -104,6 +104,31 @@ describe('bundleMiddleware', () => {
         })
 
 
+    });
+
+    it('handles errors from call to paths', () => {
+        nock(`http://localhost:${testPort}`)
+            .get(`${API_PREFIX}/paths/juttle1.juttle`)
+            .reply(400, { code: 'JS-JUTTLE-ERROR', info: {}, message: 'Error from juttle compiler or runtime' });
+
+        const store = createFakeStore({
+            juttleServiceHost: `localhost:${testPort}`,
+            runMode: { path: null, rendezvous: null }
+        });
+
+        return new Promise((resolve, reject) => {
+            store.event.once(NEW_ERROR, (action) => {
+                expect(action.error.code).to.equal('JS-JUTTLE-ERROR');
+                resolve(action);
+            });
+
+            store.updateState({
+                runMode: {
+                    path: '/juttle1.juttle',
+                    rendezvous: null
+                }
+            });
+        });
     });
 
     it('fetches bundle from path set runMode', () => {
