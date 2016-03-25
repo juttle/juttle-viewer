@@ -21,7 +21,7 @@ This file documents all notable changes to juttle-client-library. The release nu
 - No code changes in this repo. Re-publishing to pick up juttle-viz@0.6.1 in the /dist assets.
 
 
-## 0.3.0 
+## 0.3.0
 
 ## Major Changes
 
