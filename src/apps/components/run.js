@@ -115,7 +115,6 @@ export class RunApp extends React.Component {
         } else {
             this.view.stop();
         }
-        this.runView(options);
     };
 
     render() {
