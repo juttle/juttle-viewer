@@ -33,7 +33,7 @@ export class RunApp extends React.Component {
             this.setState({
                 logLines: [
                     ...this.state.logLines,
-                    { 
+                    {
                         text: `[${log.time}] [${log.level}] ${log.name} - ${log.arguments.join(', ')}`,
                         index: this.state.logLines.length + 1
                     }
@@ -115,7 +115,6 @@ export class RunApp extends React.Component {
         } else {
             this.view.stop();
         }
-        this.runView(options);
     };
 
     render() {
@@ -124,7 +123,7 @@ export class RunApp extends React.Component {
                 <RunHeader {...this.props}
                     runState={this.state.runState}
                     handleRun={this.handleRun}
-                    logLines = {this.state.logLines} 
+                    logLines = {this.state.logLines}
                     ref="runHeader" />
                 <div className="run-main">
                     <div ref="juttleSource"></div>
