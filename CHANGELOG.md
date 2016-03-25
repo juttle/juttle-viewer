@@ -1,6 +1,12 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## 0.4.1
+
+## Bug Fixes
+
+- Only run the program once when the run button is pressed [#65](https://github.com/juttle/juttle-viewer/pull/65)
+
 ## 0.4.0
 
 ## Major Changes
