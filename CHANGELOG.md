@@ -1,6 +1,12 @@
 # Change Log
 This file documents all notable changes to juttle-client-library. The release numbering uses [semantic versioning](http://semver.org).
 
+## 0.4.2
+
+## Bug Fixes
+
+- Fix bug that caused syntax errors to not be displayed [#69](https://github.com/juttle/juttle-viewer/pull/69)
+
 ## 0.4.1
 
 ## Bug Fixes
